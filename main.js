@@ -53,126 +53,126 @@ let builds = [
         id: 1,
         name: "Angle Aquilonien",
         img: "angle",
-        resources: [[4,80],[1,10],[2,10],[5,2],[7,2],[3,24],[6,8]],
+        resources: [[4,80],[1,10],[2,20],[5,2],[7,2],[3,24],[6,8]],
         quantity: 0
     },
     {
         id: 2,
         name: "Angle de fondations aquiloniennes",
         img: "angle_fondation",
-        resources: [[4,150],[1,20],[2,15],[5,3],[7,3],[3,45],[6,15]],
+        resources: [[4,150],[1,20],[2,30],[5,3],[7,3],[3,45],[6,15]],
         quantity: 0
     },
     {
         id: 3,
         name: "Angle de toit incliné aquilonien",
         img: "angle_toit_incliné",
-        resources: [[4,80],[1,15],[2,10],[5,2],[7,2],[3,24],[6,8]],
+        resources: [[4,80],[1,15],[2,20],[5,2],[7,2],[3,24],[6,8]],
         quantity: 0
     },
     {
         id: 4,
         name: "Angle de toit incliné inversé aquilonien",
         img: "angle_toit_incliné_inversé",
-        resources: [[4,80],[1,15],[2,10],[5,2],[7,2],[3,24],[6,8]],
+        resources: [[4,80],[1,15],[2,20],[5,2],[7,2],[3,24],[6,8]],
         quantity: 0
     },
     {
         id: 5,
         name: "Cadre de fenêtre aquilonien",
         img: "fenetre",
-        resources: [[4,80],[1,10],[2,10],[5,2],[7,2],[3,24],[6,8]],
+        resources: [[4,80],[1,10],[2,20],[5,2],[7,2],[3,24],[6,8]],
         quantity: 0
     },
     {
         id: 6,
         name: "Chambranle de porte aquilonien",
         img: "chambranle",
-        resources: [[4,80],[1,10],[2,10],[5,2],[7,2],[3,24],[6,8]],
+        resources: [[4,80],[1,10],[2,20],[5,2],[7,2],[3,24],[6,8]],
         quantity: 0
     },
     {
         id: 7,
         name: "Coin de toit incliné aquilonien",
         img: "coin_toit_incliné",
-        resources: [[4,80],[1,10],[2,10],[5,2],[7,2],[3,24],[6,8]],
+        resources: [[4,80],[1,10],[2,20],[5,2],[7,2],[3,24],[6,8]],
         quantity: 0
     },
     {
         id: 8,
         name: "Coin de toit incliné inversé aquilonien",
         img: "coin_toit_incliné_inverse",
-        resources: [[4,80],[1,10],[2,10],[5,2],[7,2],[3,24],[6,8]],
+        resources: [[4,80],[1,10],[2,20],[5,2],[7,2],[3,24],[6,8]],
         quantity: 0
     },
     {
         id: 9,
         name: "Fondations aquiloniennes",
         img: "fondation",
-        resources: [[4,150],[1,20],[2,15],[5,3],[7,3],[3,45],[6,15]],
+        resources: [[4,150],[1,20],[2,30],[5,3],[7,3],[3,45],[6,15]],
         quantity: 0
     },
     {
         id: 10,
         name: "Mur aquilonien",
         img: "mur",
-        resources: [[4,80],[1,15],[2,10],[5,2],[7,2],[3,24],[6,8]],
+        resources: [[4,80],[1,15],[2,20],[5,2],[7,2],[3,24],[6,8]],
         quantity: 0
     },
     {
         id: 11,
         name: "Mur aquilonien incliné vers la droite",
         img: "mur_incliné_droite",
-        resources: [[4,90],[1,15],[2,10],[5,2],[7,2],[3,27],[6,9]],
+        resources: [[4,90],[1,15],[2,20],[5,2],[7,2],[3,27],[6,9]],
         quantity: 0
     },
     {
         id: 12,
         name: "Mur aquilonien incliné vers la gauche",
         img: "mur_incliné_gauche",
-        resources: [[4,90],[1,15],[2,10],[5,2],[7,2],[3,27],[6,9]],
+        resources: [[4,90],[1,15],[2,20],[5,2],[7,2],[3,27],[6,9]],
         quantity: 0
     },
     {
         id: 13,
         name: "Mur aquilonien incliné inversé vers la droite",
         img: "mur_inversé_incliné_droite",
-        resources: [[4,90],[1,15],[2,10],[5,2],[7,2],[3,27],[6,9]],
+        resources: [[4,90],[1,15],[2,20],[5,2],[7,2],[3,27],[6,9]],
         quantity: 0
     },
     {
         id: 14,
         name: "Mur aquilonien incliné inversé vers la gauche",
         img: "mur_inversé_incliné_gauche",
-        resources: [[4,90],[1,15],[2,10],[5,2],[7,2],[3,27],[6,9]],
+        resources: [[4,90],[1,15],[2,20],[5,2],[7,2],[3,27],[6,9]],
         quantity: 0
     },
     {
         id: 15,
         name: "Pilier aquilonien",
         img: "pilier",
-        resources: [[4,80],[1,10],[2,10],[5,2],[7,2],[3,24],[6,8]],
+        resources: [[4,80],[1,10],[2,20],[5,2],[7,2],[3,24],[6,8]],
         quantity: 0
     },
     {
         id: 16,
         name: "Plafond Aquilonien",
         img: "plafond",
-        resources: [[4,90],[1,15],[2,10],[5,2],[7,2],[3,27],[6,9]],
+        resources: [[4,90],[1,15],[2,20],[5,2],[7,2],[3,27],[6,9]],
         quantity: 0
     },
     {
         id: 17,
         name: "Porte aquilonienne",
         img: "porte",
-        resources: [[1,20],[2,15],[5,3],[7,3]],
+        resources: [[1,20],[2,30],[5,3],[7,3]],
         quantity: 0
     },
     {
         id: 18,
         name: "Toit incliné aquilonien",
         img: "toit_incliné",
-        resources: [[4,150],[1,20],[2,15],[5,3],[7,3],[3,45],[6,15]],
+        resources: [[4,150],[1,20],[2,30],[5,3],[7,3],[3,45],[6,15]],
         quantity: 0
     },
 ];
@@ -342,7 +342,7 @@ let items = [
         id: 24,
         name: "Torche murale aquilonienne",
         img: "torche_murale",
-        resources: [[2,5]],
+        resources: [[2,10]],
         quantity: 0
     }
 ];
