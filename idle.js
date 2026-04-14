@@ -220,7 +220,6 @@ const actions = [
 function init() {
     ensureQuestSlots();
     bindEvents();
-    initHudMenu();
     applyOfflineProgress();
     processProgression();
     render();
@@ -252,62 +251,6 @@ function bindEvents() {
     });
 }
 
-
-function initHudMenu() {
-    const popupButtons = Array.from(document.querySelectorAll('[data-popup-target]'));
-    const panels = Array.from(document.querySelectorAll('.hud-popup'));
-    const panelById = new Map(panels.map((panel) => [panel.id, panel]));
-    let activePanelId = 'popup-actions';
-
-    const setActivePanel = (nextPanelId) => {
-        const panelExists = nextPanelId && panelById.has(nextPanelId);
-        activePanelId = panelExists ? nextPanelId : activePanelId;
-
-        panels.forEach((panel) => {
-            const isActive = panel.id === activePanelId;
-            panel.hidden = !isActive;
-            panel.classList.toggle('hud-popup--open', isActive);
-            panel.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-        });
-
-        popupButtons.forEach((button) => {
-            const targetId = button.getAttribute('data-popup-target');
-            const isActive = targetId === activePanelId;
-            button.classList.toggle('hud-menu__button--active', isActive);
-            button.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-        });
-    };
-
-    popupButtons.forEach((button) => {
-        button.setAttribute('aria-expanded', 'false');
-        button.addEventListener('click', () => {
-            const targetId = button.getAttribute('data-popup-target');
-            if (!targetId) {
-                return;
-            }
-            setActivePanel(targetId);
-        });
-    });
-
-    panels.forEach((panel) => {
-        const closeButton = panel.querySelector('[data-popup-close]');
-        if (!closeButton) {
-            return;
-        }
-
-        closeButton.addEventListener('click', () => {
-            setActivePanel('popup-actions');
-        });
-    });
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            setActivePanel('popup-actions');
-        }
-    });
-
-    setActivePanel(activePanelId);
-}
 
 function tick() {
     const now = Date.now();

@@ -8,56 +8,33 @@
     <title>Conan Exiles - Idle Aquilonien</title>
 </head>
 <body class="idle-hud-body">
-    <main class="idle-hud" aria-label="Interface HUD du mini-jeu idle">
-        <header class="hud-menu" aria-label="Menu principal HUD">
-            <a class="button button--secondary hud-menu__link" href="index.html">← Calculateur</a>
-            <button class="hud-menu__button" type="button" data-popup-target="popup-actions" aria-controls="popup-actions">Actions</button>
-            <button class="hud-menu__button" type="button" data-popup-target="popup-upgrades" aria-controls="popup-upgrades">Améliorations</button>
-            <button class="hud-menu__button" type="button" data-popup-target="popup-missions" aria-controls="popup-missions">Missions</button>
-            <button class="hud-menu__button" type="button" data-popup-target="popup-stats" aria-controls="popup-stats">Stats</button>
+    <main class="idle-simple" aria-label="Interface simple du mini-jeu idle">
+        <header class="idle-simple__header">
+            <a class="button button--secondary" href="index.html">← Calculateur</a>
+            <h1>Idle Aquilonien</h1>
         </header>
 
-        <section class="hud-popup hud-popup--open" id="popup-actions" aria-label="Actions du jeu idle">
-            <div class="hud-popup__header">
-                <h2>Actions</h2>
-                <button class="hud-popup__close" type="button" data-popup-close aria-label="Fermer">✕</button>
-            </div>
-            <div class="hud-popup__content">
-                <button class="button hud-action-button" id="manual-collect" type="button">Récolter (+énergie)</button>
-                <button class="button button--danger hud-action-button" id="button-reset-save-idle" type="button">Réinitialiser la sauvegarde idle</button>
-                <div class="idle-action-list" id="idle-actions"></div>
-            </div>
+        <section class="idle-column" aria-label="Colonne actions">
+            <h2>Actions</h2>
+            <button class="button hud-action-button" id="manual-collect" type="button">Récolter (+énergie)</button>
+            <button class="button button--danger hud-action-button" id="button-reset-save-idle" type="button">Réinitialiser la sauvegarde idle</button>
+            <div class="idle-action-list" id="idle-actions"></div>
         </section>
 
-        <section class="hud-popup" id="popup-upgrades" aria-label="Améliorations" hidden>
-            <div class="hud-popup__header">
-                <h2>Améliorations</h2>
-                <button class="hud-popup__close" type="button" data-popup-close aria-label="Fermer">✕</button>
-            </div>
-            <div class="hud-popup__content">
-                <div class="idle-upgrades" id="idle-upgrades"></div>
-            </div>
+        <section class="idle-column" aria-label="Colonne améliorations">
+            <h2>Améliorations</h2>
+            <div class="idle-upgrades" id="idle-upgrades"></div>
         </section>
 
-        <section class="hud-popup" id="popup-missions" aria-label="Missions" hidden>
-            <div class="hud-popup__header">
-                <h2>Missions du royaume</h2>
-                <button class="hud-popup__close" type="button" data-popup-close aria-label="Fermer">✕</button>
-            </div>
-            <div class="hud-popup__content">
-                <div class="idle-missions" id="idle-missions"></div>
-            </div>
+        <section class="idle-column" aria-label="Colonne quêtes et objectifs">
+            <h2>Quêtes</h2>
+            <p class="idle-highlight" id="offline-gain"></p>
+            <div class="idle-missions" id="idle-missions"></div>
         </section>
 
-        <section class="hud-popup" id="popup-stats" aria-label="Statistiques du jeu idle" hidden>
-            <div class="hud-popup__header">
-                <h2>Stats & ressources</h2>
-                <button class="hud-popup__close" type="button" data-popup-close aria-label="Fermer">✕</button>
-            </div>
-            <div class="hud-popup__content">
-                <p class="idle-highlight" id="offline-gain"></p>
-                <section class="stats" id="idle-stats"></section>
-            </div>
+        <section class="idle-stats-corner" aria-label="Statistiques du jeu idle">
+            <h2>Stats</h2>
+            <section class="stats" id="idle-stats"></section>
         </section>
     </main>
 
