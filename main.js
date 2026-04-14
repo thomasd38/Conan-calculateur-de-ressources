@@ -62,6 +62,7 @@ const state = {
     resourceFilter: 'all',
     nonZeroOnly: false
 };
+const STORAGE_KEY = 'conan-resource-calculator-v2';
 
 const buildsContainer = document.querySelector('#builds');
 const itemsContainer = document.querySelector('#items');
@@ -70,7 +71,9 @@ const statsContainer = document.querySelector('#stats');
 const resourceFilter = document.querySelector('#resource-filter');
 
 function init() {
+    hydrateFromStorage();
     hydrateResourceFilter();
+    syncFilterControls();
     bindEvents();
     render();
 }
@@ -79,16 +82,19 @@ function bindEvents() {
     document.querySelector('#search-input').addEventListener('input', (event) => {
         state.search = event.target.value.trim().toLowerCase();
         renderCatalogs();
+        persistState();
     });
 
     resourceFilter.addEventListener('change', (event) => {
         state.resourceFilter = event.target.value;
         renderCatalogs();
+        persistState();
     });
 
     document.querySelector('#toggle-non-zero').addEventListener('change', (event) => {
         state.nonZeroOnly = event.target.checked;
         renderResources();
+        persistState();
     });
 
     document.querySelector('#button-reset').addEventListener('click', () => {
@@ -96,7 +102,28 @@ function bindEvents() {
             element.quantity = 0;
         });
         render();
+        persistState();
     });
+
+    const resetSave = () => {
+        localStorage.removeItem(STORAGE_KEY);
+        state.search = '';
+        state.resourceFilter = 'all';
+        state.nonZeroOnly = false;
+
+        [...builds, ...items].forEach((element) => {
+            element.quantity = 0;
+        });
+
+        document.querySelector('#search-input').value = '';
+        document.querySelector('#toggle-non-zero').checked = false;
+        resourceFilter.value = 'all';
+
+        render();
+    };
+
+    document.querySelector('#button-reset-save').addEventListener('click', resetSave);
+    document.querySelector('#button-reset-save-mobile').addEventListener('click', resetSave);
 
     document.querySelector('#button-calculate').addEventListener('click', () => {
         showLoading();
@@ -113,6 +140,12 @@ function hydrateResourceFilter() {
         ...resources.map((resource) => `<option value="${resource.id}">${resource.name}</option>`)
     ];
     resourceFilter.innerHTML = options.join('');
+}
+
+function syncFilterControls() {
+    document.querySelector('#search-input').value = state.search;
+    resourceFilter.value = state.resourceFilter;
+    document.querySelector('#toggle-non-zero').checked = state.nonZeroOnly;
 }
 
 function render() {
@@ -199,6 +232,7 @@ function updateQuantity(element, value) {
     renderResources();
     renderStats();
     renderCatalogs();
+    persistState();
 }
 
 function computeTotals() {
@@ -270,6 +304,55 @@ function showLoading() {
 
 function hideLoading() {
     document.querySelector('#fake-loading').style.display = 'none';
+}
+
+function hydrateFromStorage() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+        return;
+    }
+
+    try {
+        const parsed = JSON.parse(raw);
+        if (typeof parsed.search === 'string') {
+            state.search = parsed.search;
+        }
+        if (typeof parsed.resourceFilter === 'string') {
+            state.resourceFilter = parsed.resourceFilter;
+        }
+        if (typeof parsed.nonZeroOnly === 'boolean') {
+            state.nonZeroOnly = parsed.nonZeroOnly;
+        }
+
+        applySavedQuantities(builds, parsed.builds);
+        applySavedQuantities(items, parsed.items);
+    } catch (error) {
+        localStorage.removeItem(STORAGE_KEY);
+    }
+}
+
+function applySavedQuantities(collection, savedCollection) {
+    if (!Array.isArray(savedCollection)) {
+        return;
+    }
+    const quantityById = new Map(savedCollection.map((entry) => [entry.id, entry.quantity]));
+    collection.forEach((element) => {
+        const savedQty = quantityById.get(element.id);
+        if (Number.isFinite(savedQty) && savedQty >= 0) {
+            element.quantity = Math.floor(savedQty);
+        }
+    });
+}
+
+function persistState() {
+    const payload = {
+        search: state.search,
+        resourceFilter: state.resourceFilter,
+        nonZeroOnly: state.nonZeroOnly,
+        builds: builds.map(({ id, quantity }) => ({ id, quantity })),
+        items: items.map(({ id, quantity }) => ({ id, quantity }))
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 }
 
 init();
