@@ -20,9 +20,6 @@
             <button class="hud-icon-button" type="button" data-popup-target="popup-missions" aria-label="Afficher les missions">
                 <i class="fa-solid fa-scroll"></i>
             </button>
-            <button class="hud-icon-button" type="button" data-popup-target="popup-stats" aria-label="Afficher les statistiques">
-                <i class="fa-solid fa-chart-line"></i>
-            </button>
         </header>
 
         <section class="hud-popup" id="popup-actions" aria-label="Actions du jeu idle" hidden>
@@ -57,10 +54,9 @@
             </div>
         </section>
 
-        <section class="hud-popup" id="popup-stats" aria-label="Statistiques du jeu idle" hidden>
+        <section class="hud-stats-panel" id="hud-stats-panel" aria-label="Statistiques du jeu idle">
             <div class="hud-popup__header">
                 <h2>Stats & ressources</h2>
-                <button class="hud-popup__close" type="button" data-popup-close aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="hud-popup__content">
                 <p class="idle-highlight" id="offline-gain"></p>
