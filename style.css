@@ -572,6 +572,15 @@ body.idle-hud-body {
     overflow: auto;
 }
 
+.hud-panel--quests {
+    top: 1rem;
+    right: 1rem;
+    display: grid;
+    gap: 0.6rem;
+    max-height: calc(50vh - 1.5rem);
+    overflow: auto;
+}
+
 .hud-panel--resources {
     left: 1rem;
     bottom: 1rem;
@@ -662,6 +671,14 @@ body.idle-hud-body {
     .hud-panel--actions {
         top: 0.5rem;
         max-height: 55vh;
+    }
+
+    .hud-panel--quests {
+        top: auto;
+        right: auto;
+        left: 0.5rem;
+        bottom: 9.2rem;
+        max-height: 30vh;
     }
 
     .hud-panel--resources {
