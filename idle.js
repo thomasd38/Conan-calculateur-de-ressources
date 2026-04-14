@@ -255,33 +255,43 @@ function bindEvents() {
 
 function bindHudPopups() {
     const popupButtons = Array.from(document.querySelectorAll('[data-popup-target]'));
-    const closeButtons = Array.from(document.querySelectorAll('[data-popup-close]'));
     const popups = Array.from(document.querySelectorAll('.hud-popup'));
+    const popupById = new Map(popups.map((popup) => [popup.id, popup]));
+    const buttonByTarget = new Map(
+        popupButtons
+            .map((button) => [button.getAttribute('data-popup-target'), button])
+            .filter(([targetId]) => Boolean(targetId))
+    );
+
     let openedPopupId = null;
 
     const closeAllPopups = () => {
         popups.forEach((popup) => {
             popup.hidden = true;
             popup.classList.remove('hud-popup--open');
+            popup.setAttribute('aria-hidden', 'true');
         });
+
         popupButtons.forEach((button) => {
             button.classList.remove('hud-icon-button--active');
             button.setAttribute('aria-expanded', 'false');
         });
+
         openedPopupId = null;
     };
 
     const openPopup = (targetId) => {
-        const target = targetId ? document.getElementById(targetId) : null;
-        if (!target || !target.classList.contains('hud-popup')) {
+        const target = targetId ? popupById.get(targetId) : null;
+        if (!target) {
             return;
         }
 
         closeAllPopups();
         target.hidden = false;
         target.classList.add('hud-popup--open');
+        target.setAttribute('aria-hidden', 'false');
 
-        const button = popupButtons.find((entry) => entry.getAttribute('data-popup-target') === targetId);
+        const button = buttonByTarget.get(targetId);
         if (button) {
             button.classList.add('hud-icon-button--active');
             button.setAttribute('aria-expanded', 'true');
@@ -298,8 +308,7 @@ function bindHudPopups() {
                 return;
             }
 
-            const isCurrentPopupOpen = openedPopupId === targetId;
-            if (isCurrentPopupOpen) {
+            if (openedPopupId === targetId) {
                 closeAllPopups();
                 return;
             }
@@ -308,30 +317,27 @@ function bindHudPopups() {
         });
     });
 
-    closeButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const popup = button.closest('.hud-popup');
-            if (!popup) {
-                return;
-            }
-            closeAllPopups();
-        });
-    });
-
     document.addEventListener('click', (event) => {
-        const clickedInsidePopup = event.target.closest('.hud-popup');
-        const clickedIconButton = event.target.closest('[data-popup-target]');
-        if (clickedInsidePopup || clickedIconButton) {
+        const closeButton = event.target.closest('[data-popup-close]');
+        if (closeButton) {
+            closeAllPopups();
             return;
         }
+
+        if (event.target.closest('.hud-popup') || event.target.closest('[data-popup-target]')) {
+            return;
+        }
+
         closeAllPopups();
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && openedPopupId !== null) {
             closeAllPopups();
         }
     });
+
+    closeAllPopups();
 }
 
 function tick() {
