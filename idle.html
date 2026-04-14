@@ -10,13 +10,31 @@
 <body class="idle-hud-body">
     <main class="idle-hud" aria-label="Interface HUD du mini-jeu idle">
         <section class="hud-panel hud-panel--actions" aria-label="Actions du jeu idle">
-            <button class="button hud-action-button" id="manual-collect" type="button">Récolter (+énergie)</button>
-            <div class="idle-upgrades" id="idle-upgrades"></div>
+            <div class="hud-actions-scroll" id="hud-actions-scroll">
+                <button class="button hud-action-button" id="manual-collect" type="button">Récolter (+énergie)</button>
+
+                <div class="idle-action-list" id="idle-actions"></div>
+
+                <section class="idle-section" aria-label="Améliorations">
+                    <h2 class="idle-section__title">Améliorations</h2>
+                    <div class="idle-upgrades" id="idle-upgrades"></div>
+                </section>
+
+                <section class="idle-section" aria-label="Quêtes actives">
+                    <h2 class="idle-section__title">Quêtes actives</h2>
+                    <div class="idle-quests" id="idle-quests"></div>
+                </section>
+            </div>
         </section>
 
         <section class="hud-panel hud-panel--resources" aria-label="Ressources du jeu idle">
             <p class="idle-highlight" id="offline-gain"></p>
             <section class="stats" id="idle-stats"></section>
+
+            <section class="idle-section" aria-label="Objectifs">
+                <h2 class="idle-section__title">Objectifs de royaume</h2>
+                <div class="idle-objectives" id="idle-objectives"></div>
+            </section>
         </section>
     </main>
 
