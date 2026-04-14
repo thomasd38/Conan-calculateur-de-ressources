@@ -220,7 +220,7 @@ const actions = [
 function init() {
     ensureQuestSlots();
     bindEvents();
-    bindHudPopups();
+    initHudMenu();
     applyOfflineProgress();
     processProgression();
     render();
@@ -253,51 +253,29 @@ function bindEvents() {
 }
 
 
-function bindHudPopups() {
+function initHudMenu() {
     const popupButtons = Array.from(document.querySelectorAll('[data-popup-target]'));
-    const popups = Array.from(document.querySelectorAll('.hud-popup'));
-    const popupById = new Map(popups.map((popup) => [popup.id, popup]));
-    const buttonByTarget = new Map(
-        popupButtons
-            .map((button) => [button.getAttribute('data-popup-target'), button])
-            .filter(([targetId]) => Boolean(targetId))
-    );
+    const panels = Array.from(document.querySelectorAll('.hud-popup'));
+    const panelById = new Map(panels.map((panel) => [panel.id, panel]));
+    let activePanelId = null;
 
-    let openedPopupId = null;
+    const setActivePanel = (nextPanelId) => {
+        const panelExists = nextPanelId && panelById.has(nextPanelId);
+        activePanelId = panelExists ? nextPanelId : null;
 
-    const closeAllPopups = () => {
-        popups.forEach((popup) => {
-            popup.hidden = true;
-            popup.classList.remove('hud-popup--open');
-            popup.setAttribute('aria-hidden', 'true');
+        panels.forEach((panel) => {
+            const isActive = panel.id === activePanelId;
+            panel.hidden = !isActive;
+            panel.classList.toggle('hud-popup--open', isActive);
+            panel.setAttribute('aria-hidden', isActive ? 'false' : 'true');
         });
 
         popupButtons.forEach((button) => {
-            button.classList.remove('hud-icon-button--active');
-            button.setAttribute('aria-expanded', 'false');
+            const targetId = button.getAttribute('data-popup-target');
+            const isActive = targetId === activePanelId;
+            button.classList.toggle('hud-icon-button--active', isActive);
+            button.setAttribute('aria-expanded', isActive ? 'true' : 'false');
         });
-
-        openedPopupId = null;
-    };
-
-    const openPopup = (targetId) => {
-        const target = targetId ? popupById.get(targetId) : null;
-        if (!target) {
-            return;
-        }
-
-        closeAllPopups();
-        target.hidden = false;
-        target.classList.add('hud-popup--open');
-        target.setAttribute('aria-hidden', 'false');
-
-        const button = buttonByTarget.get(targetId);
-        if (button) {
-            button.classList.add('hud-icon-button--active');
-            button.setAttribute('aria-expanded', 'true');
-        }
-
-        openedPopupId = targetId;
     };
 
     popupButtons.forEach((button) => {
@@ -308,36 +286,33 @@ function bindHudPopups() {
                 return;
             }
 
-            if (openedPopupId === targetId) {
-                closeAllPopups();
+            if (activePanelId === targetId) {
+                setActivePanel(null);
                 return;
             }
 
-            openPopup(targetId);
+            setActivePanel(targetId);
         });
     });
 
-    document.addEventListener('click', (event) => {
-        const closeButton = event.target.closest('[data-popup-close]');
-        if (closeButton) {
-            closeAllPopups();
+    panels.forEach((panel) => {
+        const closeButton = panel.querySelector('[data-popup-close]');
+        if (!closeButton) {
             return;
         }
 
-        if (event.target.closest('.hud-popup') || event.target.closest('[data-popup-target]')) {
-            return;
-        }
-
-        closeAllPopups();
+        closeButton.addEventListener('click', () => {
+            setActivePanel(null);
+        });
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && openedPopupId !== null) {
-            closeAllPopups();
+        if (event.key === 'Escape' && activePanelId !== null) {
+            setActivePanel(null);
         }
     });
 
-    closeAllPopups();
+    setActivePanel(null);
 }
 
 function tick() {
