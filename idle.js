@@ -257,11 +257,11 @@ function initHudMenu() {
     const popupButtons = Array.from(document.querySelectorAll('[data-popup-target]'));
     const panels = Array.from(document.querySelectorAll('.hud-popup'));
     const panelById = new Map(panels.map((panel) => [panel.id, panel]));
-    let activePanelId = null;
+    let activePanelId = 'popup-actions';
 
     const setActivePanel = (nextPanelId) => {
         const panelExists = nextPanelId && panelById.has(nextPanelId);
-        activePanelId = panelExists ? nextPanelId : null;
+        activePanelId = panelExists ? nextPanelId : activePanelId;
 
         panels.forEach((panel) => {
             const isActive = panel.id === activePanelId;
@@ -273,7 +273,7 @@ function initHudMenu() {
         popupButtons.forEach((button) => {
             const targetId = button.getAttribute('data-popup-target');
             const isActive = targetId === activePanelId;
-            button.classList.toggle('hud-icon-button--active', isActive);
+            button.classList.toggle('hud-menu__button--active', isActive);
             button.setAttribute('aria-expanded', isActive ? 'true' : 'false');
         });
     };
@@ -285,12 +285,6 @@ function initHudMenu() {
             if (!targetId) {
                 return;
             }
-
-            if (activePanelId === targetId) {
-                setActivePanel(null);
-                return;
-            }
-
             setActivePanel(targetId);
         });
     });
@@ -302,17 +296,17 @@ function initHudMenu() {
         }
 
         closeButton.addEventListener('click', () => {
-            setActivePanel(null);
+            setActivePanel('popup-actions');
         });
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && activePanelId !== null) {
-            setActivePanel(null);
+        if (event.key === 'Escape') {
+            setActivePanel('popup-actions');
         }
     });
 
-    setActivePanel(null);
+    setActivePanel(activePanelId);
 }
 
 function tick() {

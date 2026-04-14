@@ -549,57 +549,49 @@ body.idle-hud-body {
     padding: 1rem;
 }
 
-.hud-iconbar {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
+.hud-menu {
+    position: sticky;
+    top: 0.5rem;
     z-index: 8;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 0.8rem;
+    background: rgba(0, 0, 0, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.hud-icon-button {
-    width: 48px;
-    height: 48px;
-    border-radius: 0.7rem;
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    background: rgba(7, 7, 7, 0.95);
+.hud-menu__button {
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: #141414;
     color: #f3f3f3;
-    font-size: 1rem;
+    border-radius: 0.55rem;
+    padding: 0.45rem 0.8rem;
     cursor: pointer;
+    font-weight: 600;
 }
 
-.hud-icon-button:hover,
-.hud-icon-button:focus-visible {
-    background: #1a1a1a;
+.hud-menu__button:hover,
+.hud-menu__button:focus-visible {
+    background: #242424;
 }
 
-.hud-icon-button--active {
-    background: #1f1f1f;
-    border-color: rgba(139, 212, 255, 0.55);
+.hud-menu__button--active {
+    border-color: rgba(139, 212, 255, 0.65);
+    background: #202a31;
+}
+
+.hud-menu__link {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.9rem;
 }
 
 .hud-popup {
-    position: fixed;
-    top: 1rem;
-    right: 4.9rem;
-    z-index: 7;
-    width: min(520px, calc(100vw - 7rem));
-    max-height: calc(100vh - 2rem);
-    display: grid;
-    grid-template-rows: auto 1fr;
-    background: rgba(0, 0, 0, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 0.8rem;
-}
-
-.hud-stats-panel {
-    position: fixed;
-    left: 1rem;
-    bottom: 1rem;
-    z-index: 6;
-    width: min(480px, calc(100vw - 2rem));
-    max-height: calc(100vh - 2rem);
+    margin-top: 0.75rem;
+    width: min(720px, 100%);
+    max-height: calc(100vh - 8rem);
     display: grid;
     grid-template-rows: auto 1fr;
     background: rgba(0, 0, 0, 0.95);
@@ -760,23 +752,12 @@ body.idle-hud-body {
 }
 
 @media (max-width: 720px) {
-    .hud-iconbar {
-        top: 0.5rem;
-        right: 0.5rem;
-        grid-template-columns: repeat(2, 1fr);
+    .idle-hud {
+        padding: 0.5rem;
     }
 
     .hud-popup {
-        top: 4.1rem;
-        right: 0.5rem;
         width: calc(100vw - 1rem);
-        max-height: calc(100vh - 4.6rem);
-    }
-
-    .hud-stats-panel {
-        left: 0.5rem;
-        bottom: 0.5rem;
-        width: calc(100vw - 1rem);
-        max-height: min(48vh, 380px);
+        max-height: calc(100vh - 7.5rem);
     }
 }
