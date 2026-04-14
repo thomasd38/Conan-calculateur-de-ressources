@@ -4,40 +4,68 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWix+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkR4j8tBtM8+WB4Rk5f7jL+0I4J6L9C2q2JQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="style.css">
     <title>Conan Exiles - Idle Aquilonien</title>
 </head>
 <body class="idle-hud-body">
     <main class="idle-hud" aria-label="Interface HUD du mini-jeu idle">
-        <section class="hud-panel hud-panel--actions" aria-label="Actions du jeu idle">
-            <div class="hud-actions-scroll" id="hud-actions-scroll">
+        <header class="hud-iconbar" aria-label="Navigation HUD">
+            <button class="hud-icon-button" type="button" data-popup-target="popup-actions" aria-label="Afficher les actions">
+                <i class="fa-solid fa-bolt"></i>
+            </button>
+            <button class="hud-icon-button" type="button" data-popup-target="popup-upgrades" aria-label="Afficher les améliorations">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+            </button>
+            <button class="hud-icon-button" type="button" data-popup-target="popup-missions" aria-label="Afficher les missions">
+                <i class="fa-solid fa-scroll"></i>
+            </button>
+            <button class="hud-icon-button" type="button" data-popup-target="popup-stats" aria-label="Afficher les statistiques">
+                <i class="fa-solid fa-chart-line"></i>
+            </button>
+        </header>
+
+        <section class="hud-popup" id="popup-actions" aria-label="Actions du jeu idle" hidden>
+            <div class="hud-popup__header">
+                <h2>Actions</h2>
+                <button class="hud-popup__close" type="button" data-popup-close aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="hud-popup__content">
                 <button class="button hud-action-button" id="manual-collect" type="button">Récolter (+énergie)</button>
                 <button class="button button--danger hud-action-button" id="button-reset-save-idle" type="button">Réinitialiser la sauvegarde idle</button>
-
                 <div class="idle-action-list" id="idle-actions"></div>
-
-                <section class="idle-section" aria-label="Améliorations">
-                    <h2 class="idle-section__title">Améliorations</h2>
-                    <div class="idle-upgrades" id="idle-upgrades"></div>
-                </section>
             </div>
         </section>
 
-        <section class="hud-panel hud-panel--quests" aria-label="Quêtes actives">
-            <section class="idle-section">
-                <h2 class="idle-section__title">Quêtes actives</h2>
-                <div class="idle-quests" id="idle-quests"></div>
-            </section>
+        <section class="hud-popup" id="popup-upgrades" aria-label="Améliorations" hidden>
+            <div class="hud-popup__header">
+                <h2>Améliorations</h2>
+                <button class="hud-popup__close" type="button" data-popup-close aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="hud-popup__content">
+                <div class="idle-upgrades" id="idle-upgrades"></div>
+            </div>
         </section>
 
-        <section class="hud-panel hud-panel--resources" aria-label="Ressources du jeu idle">
-            <p class="idle-highlight" id="offline-gain"></p>
-            <section class="stats" id="idle-stats"></section>
+        <section class="hud-popup" id="popup-missions" aria-label="Missions" hidden>
+            <div class="hud-popup__header">
+                <h2>Missions du royaume</h2>
+                <button class="hud-popup__close" type="button" data-popup-close aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="hud-popup__content">
+                <div class="idle-missions" id="idle-missions"></div>
+            </div>
+        </section>
 
-            <section class="idle-section" aria-label="Objectifs">
-                <h2 class="idle-section__title">Objectifs de royaume</h2>
-                <div class="idle-objectives" id="idle-objectives"></div>
-            </section>
+        <section class="hud-popup" id="popup-stats" aria-label="Statistiques du jeu idle" hidden>
+            <div class="hud-popup__header">
+                <h2>Stats & ressources</h2>
+                <button class="hud-popup__close" type="button" data-popup-close aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="hud-popup__content">
+                <p class="idle-highlight" id="offline-gain"></p>
+                <section class="stats" id="idle-stats"></section>
+            </div>
         </section>
     </main>
 
