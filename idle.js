@@ -262,9 +262,14 @@ function bindHudPopups() {
             popup.hidden = true;
             popup.classList.remove('hud-popup--open');
         });
+        popupButtons.forEach((button) => {
+            button.classList.remove('hud-icon-button--active');
+            button.setAttribute('aria-expanded', 'false');
+        });
     };
 
     popupButtons.forEach((button) => {
+        button.setAttribute('aria-expanded', 'false');
         button.addEventListener('click', () => {
             const targetId = button.getAttribute('data-popup-target');
             const target = targetId ? document.getElementById(targetId) : null;
@@ -272,12 +277,14 @@ function bindHudPopups() {
                 return;
             }
 
-            const shouldOpen = target.hidden;
+            const shouldOpen = target.hidden || !target.classList.contains('hud-popup--open');
             closeAllPopups();
 
             if (shouldOpen) {
                 target.hidden = false;
                 target.classList.add('hud-popup--open');
+                button.classList.add('hud-icon-button--active');
+                button.setAttribute('aria-expanded', 'true');
             }
         });
     });
