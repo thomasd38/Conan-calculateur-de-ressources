@@ -7,39 +7,16 @@
     <link rel="stylesheet" href="style.css">
     <title>Conan Exiles - Idle Aquilonien</title>
 </head>
-<body>
-    <div class="background-overlay"></div>
-    <main class="app-shell">
-        <header class="hero">
-            <div>
-                <p class="hero__kicker">Conan Exiles • Mini-jeu idle</p>
-                <h1>Forge aquilonienne</h1>
-                <p class="hero__subtitle">Produis de l'énergie, transforme-la en cristaux et développe ta cité même quand l'onglet est fermé.</p>
-            </div>
-            <div class="hero__actions">
-                <a class="button button--secondary" href="index.html">Retour au calculateur</a>
-                <button class="button" id="reset-save" type="button">Réinitialiser la sauvegarde</button>
-            </div>
-        </header>
+<body class="idle-hud-body">
+    <main class="idle-hud" aria-label="Interface HUD du mini-jeu idle">
+        <section class="hud-panel hud-panel--actions" aria-label="Actions du jeu idle">
+            <button class="button hud-action-button" id="manual-collect" type="button">Récolter (+énergie)</button>
+            <div class="idle-upgrades" id="idle-upgrades"></div>
+        </section>
 
-        <section class="stats" id="idle-stats"></section>
-
-        <section class="idle-layout">
-            <article class="panel idle-main">
-                <div class="panel__header">
-                    <h2>Production</h2>
-                </div>
-                <p class="idle-highlight" id="offline-gain"></p>
-                <button class="button idle-click" id="manual-collect" type="button">Récolter manuellement</button>
-                <p class="idle-caption">Chaque clic génère de l'énergie instantanément.</p>
-            </article>
-
-            <article class="panel">
-                <div class="panel__header">
-                    <h2>Améliorations</h2>
-                </div>
-                <div class="idle-upgrades" id="idle-upgrades"></div>
-            </article>
+        <section class="hud-panel hud-panel--resources" aria-label="Ressources du jeu idle">
+            <p class="idle-highlight" id="offline-gain"></p>
+            <section class="stats" id="idle-stats"></section>
         </section>
     </main>
 

@@ -71,21 +71,27 @@ function init() {
 }
 
 function bindEvents() {
-    document.querySelector('#manual-collect').addEventListener('click', () => {
-        state.energy += state.clickPower;
-        state.totalClicks += 1;
-        render();
-        scheduleSave();
-    });
+    const manualCollectButton = document.querySelector('#manual-collect');
+    if (manualCollectButton) {
+        manualCollectButton.addEventListener('click', () => {
+            state.energy += state.clickPower;
+            state.totalClicks += 1;
+            render();
+            scheduleSave();
+        });
+    }
 
-    document.querySelector('#reset-save').addEventListener('click', () => {
-        localStorage.removeItem(STORAGE_KEY);
-        Object.assign(state, structuredClone(defaultState));
-        state.lastTimestamp = Date.now();
-        state.lastOfflineGain = 0;
-        render();
-        saveState();
-    });
+    const resetButton = document.querySelector('#reset-save');
+    if (resetButton) {
+        resetButton.addEventListener('click', () => {
+            localStorage.removeItem(STORAGE_KEY);
+            Object.assign(state, structuredClone(defaultState));
+            state.lastTimestamp = Date.now();
+            state.lastOfflineGain = 0;
+            render();
+            saveState();
+        });
+    }
 
     window.addEventListener('beforeunload', () => {
         saveState();
@@ -149,20 +155,12 @@ function renderStats() {
             <p class="stat-card__value">${formatNumber(state.crystals)}</p>
         </article>
         <article class="stat-card">
-            <p class="stat-card__label">Clics manuels</p>
-            <p class="stat-card__value">${formatNumber(state.totalClicks)}</p>
-        </article>
-        <article class="stat-card">
             <p class="stat-card__label">Énergie / sec</p>
             <p class="stat-card__value">${formatNumber(energyPerSec)}</p>
         </article>
         <article class="stat-card">
             <p class="stat-card__label">Cristaux / sec</p>
             <p class="stat-card__value">${formatNumber(crystalPerSec)}</p>
-        </article>
-        <article class="stat-card">
-            <p class="stat-card__label">Bonus raffinerie</p>
-            <p class="stat-card__value">x${(multiplier).toFixed(2)}</p>
         </article>
     `;
 }
