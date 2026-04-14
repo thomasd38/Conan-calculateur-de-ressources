@@ -1,5 +1,6 @@
 :root,
-[data-theme="light"] {
+[data-theme="light"],
+.data-theme-light {
     --font-family-base: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --font-size-body: 1rem;
     --font-size-title: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
@@ -30,7 +31,8 @@
     --hover-lift: translateY(-0.125rem);
 }
 
-[data-theme="dark"] {
+[data-theme="dark"],
+.data-theme-dark {
     --color-text: #ffffff;
     --color-text-muted: #d6dde7;
     --color-surface: rgba(9, 12, 16, 0.95);
@@ -85,7 +87,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    min-width: 12.5rem;
+    width: 12.5rem;
     border-radius: 9999px;
     background-color: var(--color-brand);
     color: var(--color-brand-contrast);
@@ -299,10 +301,10 @@ body {
 
 #progress-bar {
     position: absolute;
-    width: min(37.5rem, calc(100% - 2rem));
+    width: 37.5rem;
     left: 50%;
     top: 25rem;
-    margin-left: calc(-1 * min(18.75rem, calc((100% - 2rem) / 2)));
+    margin-left: -18.75rem;
     height: 3.125rem;
     background: #d7dce2;
     border-radius: 1.875rem;
@@ -331,10 +333,10 @@ body {
 #result-container {
     position: fixed;
     top: 9.375rem;
-    width: min(75rem, calc(100% - 2rem));
+    width: 75rem;
     height: 16.875rem;
     left: 50%;
-    margin-left: calc(-1 * min(37.5rem, calc((100% - 2rem) / 2)));
+    margin-left: -37.5rem;
     border-radius: var(--radius-lg);
     background: var(--color-overlay);
     border: 1px solid var(--color-border);
@@ -350,4 +352,16 @@ body {
 
 #result {
     padding-left: 4.375rem;
+}
+
+@media (max-width: 76.25rem) {
+    #progress-bar {
+        width: calc(100% - 2rem);
+        margin-left: calc((-1 * (100% - 2rem)) / 2);
+    }
+
+    #result-container {
+        width: calc(100% - 2rem);
+        margin-left: calc((-1 * (100% - 2rem)) / 2);
+    }
 }
