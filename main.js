@@ -105,26 +105,6 @@ function bindEvents() {
         persistState();
     });
 
-    const resetSave = () => {
-        localStorage.removeItem(STORAGE_KEY);
-        state.search = '';
-        state.resourceFilter = 'all';
-        state.nonZeroOnly = false;
-
-        [...builds, ...items].forEach((element) => {
-            element.quantity = 0;
-        });
-
-        document.querySelector('#search-input').value = '';
-        document.querySelector('#toggle-non-zero').checked = false;
-        resourceFilter.value = 'all';
-
-        render();
-    };
-
-    document.querySelector('#button-reset-save').addEventListener('click', resetSave);
-    document.querySelector('#button-reset-save-mobile').addEventListener('click', resetSave);
-
     document.querySelector('#button-calculate').addEventListener('click', () => {
         showLoading();
         setTimeout(() => {

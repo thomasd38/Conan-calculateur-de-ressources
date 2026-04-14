@@ -238,6 +238,11 @@ function bindEvents() {
         });
     }
 
+    const resetSaveButton = document.querySelector('#button-reset-save-idle');
+    if (resetSaveButton) {
+        resetSaveButton.addEventListener('click', resetIdleSave);
+    }
+
     window.addEventListener('beforeunload', () => {
         saveState();
     });
@@ -592,6 +597,12 @@ function saveState() {
     } catch {
         // Silencieux: certains navigateurs peuvent bloquer l'écriture en mode privé.
     }
+}
+
+function resetIdleSave() {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(LEGACY_STORAGE_KEY);
+    window.location.reload();
 }
 
 function loadState() {
