@@ -122,9 +122,8 @@ let isResettingSave = false;
 const statsContainer = document.querySelector('#idle-stats');
 const upgradesContainer = document.querySelector('#idle-upgrades');
 const offlineGainLabel = document.querySelector('#offline-gain');
-const objectivesContainer = document.querySelector('#idle-objectives');
+const missionsContainer = document.querySelector('#idle-missions');
 const actionsContainer = document.querySelector('#idle-actions');
-const questsContainer = document.querySelector('#idle-quests');
 
 const upgrades = [
     {
@@ -221,6 +220,7 @@ const actions = [
 function init() {
     ensureQuestSlots();
     bindEvents();
+    bindHudPopups();
     applyOfflineProgress();
     processProgression();
     render();
@@ -249,6 +249,54 @@ function bindEvents() {
             return;
         }
         saveState();
+    });
+}
+
+
+function bindHudPopups() {
+    const popupButtons = Array.from(document.querySelectorAll('[data-popup-target]'));
+    const closeButtons = Array.from(document.querySelectorAll('[data-popup-close]'));
+
+    const closeAllPopups = () => {
+        document.querySelectorAll('.hud-popup').forEach((popup) => {
+            popup.hidden = true;
+            popup.classList.remove('hud-popup--open');
+        });
+    };
+
+    popupButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-popup-target');
+            const target = targetId ? document.getElementById(targetId) : null;
+            if (!target) {
+                return;
+            }
+
+            const shouldOpen = target.hidden;
+            closeAllPopups();
+
+            if (shouldOpen) {
+                target.hidden = false;
+                target.classList.add('hud-popup--open');
+            }
+        });
+    });
+
+    closeButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const popup = button.closest('.hud-popup');
+            if (!popup) {
+                return;
+            }
+            popup.hidden = true;
+            popup.classList.remove('hud-popup--open');
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeAllPopups();
+        }
     });
 }
 
@@ -356,8 +404,7 @@ function render() {
     renderStats();
     renderActions();
     renderUpgrades();
-    renderQuests();
-    renderObjectives();
+    renderMissions();
     renderOfflineGain();
 }
 
@@ -480,13 +527,8 @@ function renderUpgrades() {
     });
 }
 
-function renderQuests() {
-    if (state.activeQuestIds.length === 0) {
-        questsContainer.innerHTML = '<p class="idle-empty">Toutes les quêtes sont terminées.</p>';
-        return;
-    }
-
-    questsContainer.innerHTML = state.activeQuestIds.map((questId) => {
+function renderMissions() {
+    const activeQuestCards = state.activeQuestIds.map((questId) => {
         const quest = getQuestById(questId);
         if (!quest) {
             return '';
@@ -496,7 +538,8 @@ function renderQuests() {
         const ratio = quest.target <= 0 ? 0 : (progressValue / quest.target) * 100;
 
         return `
-            <article class="idle-objective">
+            <article class="idle-objective idle-objective--quest">
+                <p class="idle-objective__badge">Quête active</p>
                 <p class="idle-upgrade__title">${quest.title}</p>
                 <p class="idle-upgrade__description">${quest.description}</p>
                 <p class="idle-upgrade__meta">Progression: ${formatNumber(progressValue)} / ${formatNumber(quest.target)} • Récompense: ${formatCost(quest.reward)}</p>
@@ -505,20 +548,28 @@ function renderQuests() {
                 </div>
             </article>
         `;
-    }).join('');
-}
+    });
 
-function renderObjectives() {
-    objectivesContainer.innerHTML = objectiveDefinitions.map((objective) => {
+    const objectiveCards = objectiveDefinitions.map((objective) => {
         const completed = state.completedObjectiveIds.includes(objective.id);
         return `
             <article class="idle-objective ${completed ? 'idle-objective--done' : ''}">
+                <p class="idle-objective__badge">Objectif royaume</p>
                 <p class="idle-upgrade__title">${objective.title}</p>
                 <p class="idle-upgrade__description">${objective.description}</p>
                 <p class="idle-upgrade__meta">Récompense: ${formatCost(objective.reward)}${completed ? ' • Terminé' : ''}</p>
             </article>
         `;
-    }).join('');
+    });
+
+    const cards = [...activeQuestCards, ...objectiveCards].filter(Boolean);
+
+    if (cards.length === 0) {
+        missionsContainer.innerHTML = '<p class="idle-empty">Toutes les missions sont terminées.</p>';
+        return;
+    }
+
+    missionsContainer.innerHTML = cards.join('');
 }
 
 function renderOfflineGain() {
