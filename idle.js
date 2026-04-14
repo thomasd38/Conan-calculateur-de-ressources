@@ -117,6 +117,7 @@ const defaultState = {
 
 const state = loadState();
 let lastSaveAt = 0;
+let isResettingSave = false;
 
 const statsContainer = document.querySelector('#idle-stats');
 const upgradesContainer = document.querySelector('#idle-upgrades');
@@ -244,6 +245,9 @@ function bindEvents() {
     }
 
     window.addEventListener('beforeunload', () => {
+        if (isResettingSave) {
+            return;
+        }
         saveState();
     });
 }
@@ -582,6 +586,10 @@ function applyReward(reward) {
 }
 
 function scheduleSave() {
+    if (isResettingSave) {
+        return;
+    }
+
     const now = Date.now();
     if (now - lastSaveAt < 1000) {
         return;
@@ -592,6 +600,10 @@ function scheduleSave() {
 }
 
 function saveState() {
+    if (isResettingSave) {
+        return;
+    }
+
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch {
@@ -600,6 +612,7 @@ function saveState() {
 }
 
 function resetIdleSave() {
+    isResettingSave = true;
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(LEGACY_STORAGE_KEY);
     window.location.reload();
