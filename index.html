@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,38 +8,72 @@
     <title>Conan Exiles - Calculateur de ressources</title>
 </head>
 <body>
-    <div class="app-layout">
-        <button class="button" id="button-start" onClick="start()"><span>Démarrer</span></button>
-        <button class="button" id="button-calculate" onClick="calculate()"><span>Calculer</span></button>
-        <div class="panel" id="left-panel">
-            <h1>Construction</h1>
-            <div class="item-container" id="builds">
-                <div class="item">
-                    <input type="text">
-                    <img src="./img/brasero_1.webp">
-                    <span>Brasero aquilonien</span>
+    <div class="background-overlay"></div>
+    <main class="app-shell">
+        <header class="hero">
+            <div>
+                <p class="hero__kicker">Conan Exiles • Aquilonien</p>
+                <h1>Calculateur de ressources</h1>
+                <p class="hero__subtitle">Planifie ta construction, filtre les éléments utiles, puis récupère instantanément les ressources totales à farmer.</p>
+            </div>
+            <div class="hero__actions">
+                <button class="button button--secondary" id="button-reset" type="button">Réinitialiser</button>
+                <button class="button" id="button-calculate" type="button">Calculer</button>
+            </div>
+        </header>
+
+        <section class="toolbar" aria-label="Filtres">
+            <label class="toolbar__field">
+                <span>Recherche</span>
+                <input id="search-input" type="search" placeholder="Ex: mur, chaise, statue..." autocomplete="off">
+            </label>
+
+            <label class="toolbar__field">
+                <span>Filtrer par ressource</span>
+                <select id="resource-filter"></select>
+            </label>
+
+            <label class="toolbar__checkbox" for="toggle-non-zero">
+                <input id="toggle-non-zero" type="checkbox">
+                <span>Résultats > 0 uniquement</span>
+            </label>
+        </section>
+
+        <section class="stats" id="stats"></section>
+
+        <section class="catalog-layout">
+            <article class="panel" id="left-panel">
+                <div class="panel__header">
+                    <h2>Construction</h2>
+                    <span class="panel__count" id="build-count"></span>
                 </div>
-            </div>
-        </div>
-        <div class="panel panel--reverse" id="right-panel">
-            <h1>Décoration</h1>
-            <div class="item-container" id="items">
+                <div class="item-grid" id="builds"></div>
+            </article>
 
-            </div>
-        </div>
-        <div id="result-container">
-            <h1>Ressources totales à farmer</h1>
-            <div id="result">
+            <article class="panel" id="right-panel">
+                <div class="panel__header">
+                    <h2>Décoration</h2>
+                    <span class="panel__count" id="item-count"></span>
+                </div>
+                <div class="item-grid" id="items"></div>
+            </article>
+        </section>
 
+        <section id="result-container" class="panel panel--result">
+            <div class="panel__header">
+                <h2>Ressources totales à farmer</h2>
             </div>
+            <div id="result" class="resource-grid"></div>
+        </section>
+    </main>
+
+    <div id="fake-loading" aria-hidden="true">
+        <div class="loader-card">
+            <p>Calcul optimisé en cours...</p>
+            <div id="progress-bar"><div id="percentage"></div></div>
         </div>
     </div>
-    <div id="fake-loading">
-        <div id="progress-bar">
-            <div id="percentage"></div>
-        </div>
-        <div id="calcul-in-progress">Calcul en cours...</div>
-    </div>
+
     <script src="main.js"></script>
 </body>
 </html>
