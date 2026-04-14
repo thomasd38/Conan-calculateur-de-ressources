@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Conan Exiles - Idle Aquilonien</title>
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <main class="app-shell">
+        <header class="hero">
+            <div>
+                <p class="hero__kicker">Conan Exiles • Mini-jeu idle</p>
+                <h1>Forge aquilonienne</h1>
+                <p class="hero__subtitle">Produis de l'énergie, transforme-la en cristaux et développe ta cité même quand l'onglet est fermé.</p>
+            </div>
+            <div class="hero__actions">
+                <a class="button button--secondary" href="index.html">Retour au calculateur</a>
+                <button class="button" id="reset-save" type="button">Réinitialiser la sauvegarde</button>
+            </div>
+        </header>
+
+        <section class="stats" id="idle-stats"></section>
+
+        <section class="idle-layout">
+            <article class="panel idle-main">
+                <div class="panel__header">
+                    <h2>Production</h2>
+                </div>
+                <p class="idle-highlight" id="offline-gain"></p>
+                <button class="button idle-click" id="manual-collect" type="button">Récolter manuellement</button>
+                <p class="idle-caption">Chaque clic génère de l'énergie instantanément.</p>
+            </article>
+
+            <article class="panel">
+                <div class="panel__header">
+                    <h2>Améliorations</h2>
+                </div>
+                <div class="idle-upgrades" id="idle-upgrades"></div>
+            </article>
+        </section>
+    </main>
+
+    <script src="idle.js"></script>
+</body>
+</html>
