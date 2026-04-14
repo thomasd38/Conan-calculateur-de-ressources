@@ -256,9 +256,11 @@ function bindEvents() {
 function bindHudPopups() {
     const popupButtons = Array.from(document.querySelectorAll('[data-popup-target]'));
     const closeButtons = Array.from(document.querySelectorAll('[data-popup-close]'));
+    const popups = Array.from(document.querySelectorAll('.hud-popup'));
+    let openedPopupId = null;
 
     const closeAllPopups = () => {
-        document.querySelectorAll('.hud-popup').forEach((popup) => {
+        popups.forEach((popup) => {
             popup.hidden = true;
             popup.classList.remove('hud-popup--open');
         });
@@ -266,26 +268,43 @@ function bindHudPopups() {
             button.classList.remove('hud-icon-button--active');
             button.setAttribute('aria-expanded', 'false');
         });
+        openedPopupId = null;
+    };
+
+    const openPopup = (targetId) => {
+        const target = targetId ? document.getElementById(targetId) : null;
+        if (!target || !target.classList.contains('hud-popup')) {
+            return;
+        }
+
+        closeAllPopups();
+        target.hidden = false;
+        target.classList.add('hud-popup--open');
+
+        const button = popupButtons.find((entry) => entry.getAttribute('data-popup-target') === targetId);
+        if (button) {
+            button.classList.add('hud-icon-button--active');
+            button.setAttribute('aria-expanded', 'true');
+        }
+
+        openedPopupId = targetId;
     };
 
     popupButtons.forEach((button) => {
         button.setAttribute('aria-expanded', 'false');
         button.addEventListener('click', () => {
             const targetId = button.getAttribute('data-popup-target');
-            const target = targetId ? document.getElementById(targetId) : null;
-            if (!target) {
+            if (!targetId) {
                 return;
             }
 
-            const shouldOpen = target.hidden || !target.classList.contains('hud-popup--open');
-            closeAllPopups();
-
-            if (shouldOpen) {
-                target.hidden = false;
-                target.classList.add('hud-popup--open');
-                button.classList.add('hud-icon-button--active');
-                button.setAttribute('aria-expanded', 'true');
+            const isCurrentPopupOpen = openedPopupId === targetId;
+            if (isCurrentPopupOpen) {
+                closeAllPopups();
+                return;
             }
+
+            openPopup(targetId);
         });
     });
 
@@ -295,9 +314,17 @@ function bindHudPopups() {
             if (!popup) {
                 return;
             }
-            popup.hidden = true;
-            popup.classList.remove('hud-popup--open');
+            closeAllPopups();
         });
+    });
+
+    document.addEventListener('click', (event) => {
+        const clickedInsidePopup = event.target.closest('.hud-popup');
+        const clickedIconButton = event.target.closest('[data-popup-target]');
+        if (clickedInsidePopup || clickedIconButton) {
+            return;
+        }
+        closeAllPopups();
     });
 
     document.addEventListener('keydown', (event) => {
