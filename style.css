@@ -67,6 +67,7 @@ body {
     justify-content: space-between;
     gap: var(--space-5);
     padding: 1.5rem;
+    align-items: flex-start;
 }
 
 .hero__kicker {
@@ -99,6 +100,8 @@ h1 {
     display: flex;
     align-items: center;
     gap: var(--space-3);
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .button {
@@ -119,10 +122,20 @@ h1 {
     filter: brightness(1.05);
 }
 
+.button--danger {
+    background: rgba(241, 107, 107, 0.2);
+    border: 1px solid rgba(241, 107, 107, 0.45);
+    color: #ffd5d5;
+}
+
 .button--secondary {
     background: rgba(145, 160, 182, 0.22);
     color: #f8fbff;
     border: 1px solid var(--color-border);
+}
+
+.quick-actions {
+    display: none;
 }
 
 .toolbar {
@@ -204,6 +217,7 @@ select {
 
 .panel {
     padding: var(--space-4);
+    min-width: 0;
 }
 
 .panel__header {
@@ -235,10 +249,11 @@ select {
     display: grid;
     grid-template-columns: 64px 1fr auto;
     gap: var(--space-3);
-    align-items: center;
+    align-items: start;
     padding: 0.55rem;
     background: var(--color-surface-alt);
     border-radius: var(--radius-md);
+    min-width: 0;
 }
 
 .item-card img {
@@ -251,18 +266,21 @@ select {
 
 .item-card__name {
     font-weight: 600;
+    overflow-wrap: anywhere;
 }
 
 .item-card__recipe {
     color: var(--color-text-muted);
     font-size: 0.8rem;
     margin-top: 0.15rem;
+    overflow-wrap: anywhere;
 }
 
 .item-card__controls {
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    flex-wrap: nowrap;
 }
 
 .stepper {
@@ -368,6 +386,76 @@ select {
 
     .item-grid {
         max-height: 42vh;
+    }
+}
+
+@media (max-width: 860px) {
+    .app-shell {
+        width: min(1400px, 98vw);
+        gap: var(--space-4);
+        margin-top: 0.9rem;
+    }
+
+    .hero {
+        padding: 1rem;
+    }
+
+    .hero__subtitle {
+        max-width: 100%;
+    }
+
+    .toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .item-card {
+        grid-template-columns: 52px minmax(0, 1fr);
+        grid-template-areas:
+            "image title"
+            "controls controls";
+        gap: var(--space-2);
+    }
+
+    .item-card img {
+        grid-area: image;
+        width: 52px;
+        height: 52px;
+    }
+
+    .item-card > div:first-of-type {
+        grid-area: title;
+        min-width: 0;
+    }
+
+    .item-card__controls {
+        grid-area: controls;
+        justify-content: flex-start;
+    }
+
+    .quick-actions {
+        position: sticky;
+        bottom: 0.5rem;
+        z-index: 3;
+        display: grid;
+        gap: var(--space-2);
+        justify-items: start;
+        width: fit-content;
+        background: rgba(8, 13, 20, 0.94);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        padding: 0.6rem;
+        box-shadow: var(--shadow-card);
+    }
+
+    .quick-actions__hint {
+        color: var(--color-text-muted);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
     }
 }
 
