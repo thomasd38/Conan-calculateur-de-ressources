@@ -577,21 +577,43 @@ body.idle-hud-body {
     flex-wrap: wrap;
 }
 
-.idle-simple__header-left {
+.idle-header-icons {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
 }
 
-.idle-simple__header h1 {
-    font-size: 1.05rem;
+.idle-icon-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1c1c1c;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #f3f3f3;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.idle-icon-btn:hover {
+    background: #2a2a2a;
+    transform: scale(1.05);
 }
 
 .idle-header__resources {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
     display: flex;
     align-items: stretch;
     gap: 0.5rem;
     flex-wrap: wrap;
+    z-index: 100;
 }
 
 .idle-resource {
@@ -652,8 +674,7 @@ body.idle-hud-body {
     color: #a6a6a6;
 }
 
-.hud-action-button,
-.idle-hud-body .idle-upgrade button {
+.hud-action-button {
     width: 100%;
     border-radius: 0.45rem;
     background: #1c1c1c;
@@ -664,12 +685,43 @@ body.idle-hud-body {
 }
 
 .hud-action-button:hover,
-.hud-action-button:focus-visible,
-.idle-hud-body .idle-upgrade button:hover,
-.idle-hud-body .idle-upgrade button:focus-visible {
+.hud-action-button:focus-visible {
     transform: none;
     filter: none;
     background: #2a2a2a;
+}
+
+.idle-hud-body .idle-upgrade button {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #8bd4ff;
+    color: #062334;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0;
+    opacity: 1;
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.idle-hud-body .idle-upgrade button:disabled {
+    background: #2a2a2a;
+    color: rgba(255, 255, 255, 0.25);
+    opacity: 0.5;
+    cursor: not-allowed;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.idle-hud-body .idle-upgrade button:not(:disabled):hover,
+.idle-hud-body .idle-upgrade button:not(:disabled):focus-visible {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+    background: #7bc5ff;
 }
 
 .idle-hud-body .idle-upgrades,
@@ -684,9 +736,24 @@ body.idle-hud-body {
     background: #0b0b0b;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 0.5rem;
-    padding: 0.55rem;
+    padding: 0.55rem 0.75rem;
+}
+
+.idle-objective {
     display: grid;
     gap: 0.45rem;
+}
+
+.idle-hud-body .idle-upgrade {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.idle-hud-body .idle-upgrade > div {
+    flex: 1;
+    min-width: 0;
 }
 
 .idle-hud-body .idle-upgrade__title {
@@ -744,10 +811,6 @@ body.idle-hud-body {
 
     .idle-column {
         min-height: auto;
-    }
-
-    .idle-header__resources {
-        width: 100%;
     }
 
     .idle-resource {

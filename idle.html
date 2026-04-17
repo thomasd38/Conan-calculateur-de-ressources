@@ -9,13 +9,15 @@
     <title>Conan Exiles - Idle Aquilonien</title>
 </head>
 <body class="idle-hud-body">
+    <div class="idle-header__resources" id="idle-resources" aria-label="Ressources"></div>
     <main class="idle-simple" aria-label="Interface simple du mini-jeu idle">
         <header class="idle-simple__header">
-            <div class="idle-simple__header-left">
-                <a class="button button--secondary" href="index.html">← Calculateur</a>
-                <h1>Idle Aquilonien</h1>
+            <div class="idle-header-icons">
+                <button class="idle-icon-btn" title="Voir les actions" aria-label="Actions"><i class="fa-solid fa-bolt"></i></button>
+                <button class="idle-icon-btn" title="Voir les améliorations" aria-label="Améliorations"><i class="fa-solid fa-arrow-up"></i></button>
+                <button class="idle-icon-btn" title="Voir les quêtes" aria-label="Quêtes"><i class="fa-solid fa-scroll"></i></button>
+                <button class="idle-icon-btn" title="Paramètres" aria-label="Paramètres"><i class="fa-solid fa-gear"></i></button>
             </div>
-            <div class="idle-header__resources" id="idle-resources" aria-label="Ressources"></div>
         </header>
 
         <section class="idle-column" aria-label="Colonne actions">
@@ -32,7 +34,6 @@
 
         <section class="idle-column" aria-label="Colonne quêtes et objectifs">
             <h2>Quêtes</h2>
-            <p class="idle-highlight" id="offline-gain"></p>
             <div class="idle-missions" id="idle-missions"></div>
         </section>
     </main>

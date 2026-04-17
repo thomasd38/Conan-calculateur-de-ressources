@@ -1,54 +1,43 @@
 const STORAGE_KEY = 'conan_idle_save_v2';
 const LEGACY_STORAGE_KEY = 'conan_idle_save_v1';
-const TICK_RATE_MS = 250;
+const FAST_TICK_RATE_MS = 250;
+const SLOW_TICK_RATE_MS = 1000;
 const QUEST_SLOTS = 3;
-
-const objectiveDefinitions = [
-    { id: 'energy_100', title: 'Premier feu', description: 'Atteindre 100 énergie.', requirement: (s) => s.energy >= 100, reward: { crystals: 5 } },
-    { id: 'crystals_20', title: 'Premières gemmes', description: 'Atteindre 20 cristaux.', requirement: (s) => s.crystals >= 20, reward: { energy: 80 } },
-    { id: 'energy_500', title: 'Stock stratégique', description: 'Atteindre 500 énergie.', requirement: (s) => s.energy >= 500, reward: { crystals: 25 } },
-    { id: 'crystals_120', title: 'Trésor royal', description: 'Atteindre 120 cristaux.', requirement: (s) => s.crystals >= 120, reward: { energy: 450 } },
-    { id: 'energy_5000', title: 'Réseau aquilonien', description: 'Atteindre 5 000 énergie.', requirement: (s) => s.energy >= 5000, reward: { crystals: 220 } },
-    { id: 'crystals_500', title: 'Cœur de gemmes', description: 'Atteindre 500 cristaux.', requirement: (s) => s.crystals >= 500, reward: { energy: 2200 } },
-    { id: 'energy_25000', title: 'Brasier d\'empire', description: 'Atteindre 25 000 énergie.', requirement: (s) => s.energy >= 25000, reward: { crystals: 700, gold: 2 } },
-    { id: 'crystals_2500_obj', title: 'Mur de cristal', description: 'Atteindre 2 500 cristaux.', requirement: (s) => s.crystals >= 2500, reward: { energy: 12000, gold: 3 } },
-    { id: 'gold_10', title: 'Premières pièces', description: 'Atteindre 10 or.', requirement: (s) => s.gold >= 10, reward: { crystals: 1500 } },
-    { id: 'energy_250k_obj', title: 'Cascade d\'énergie', description: 'Atteindre 250 000 énergie.', requirement: (s) => s.energy >= 250000, reward: { gold: 20, crystals: 4000 } },
-    { id: 'crystals_25k_obj', title: 'Mine royale', description: 'Atteindre 25 000 cristaux.', requirement: (s) => s.crystals >= 25000, reward: { gold: 35 } },
-    { id: 'gold_500_obj', title: 'Rançon du prince', description: 'Atteindre 500 or.', requirement: (s) => s.gold >= 500, reward: { crystals: 20000, energy: 300000 } },
-    { id: 'relics_5', title: 'Première relique', description: 'Atteindre 5 reliques.', requirement: (s) => s.relics >= 5, reward: { gold: 250, crystals: 40000 } },
-    { id: 'energy_2M_obj', title: 'Puits infini', description: 'Atteindre 2 000 000 énergie.', requirement: (s) => s.energy >= 2000000, reward: { gold: 180, relics: 1 } },
-    { id: 'crystals_500k', title: 'Falaise cristalline', description: 'Atteindre 500 000 cristaux.', requirement: (s) => s.crystals >= 500000, reward: { gold: 2500, relics: 12 } },
-    { id: 'gold_50k', title: 'Dragon naissant', description: 'Atteindre 50 000 or.', requirement: (s) => s.gold >= 50000, reward: { relics: 40, crystals: 200000 } },
-    { id: 'relics_500', title: 'Sanctuaire complet', description: 'Atteindre 500 reliques.', requirement: (s) => s.relics >= 500, reward: { gold: 80000, crystals: 3000000 } },
-    { id: 'energy_50M', title: 'Âme du monde', description: 'Atteindre 50 000 000 énergie.', requirement: (s) => s.energy >= 50000000, reward: { relics: 120, gold: 25000 } }
-];
 
 const questDefinitions = [
     // Tier 1 — Débutant
     { id: 'click_25', title: 'Première récolte', description: 'Effectuer 25 récoltes manuelles.', progress: (s) => s.totalClicks, target: 25, reward: { energy: 40 } },
+    { id: 'energy_100', title: 'Premier feu', description: 'Accumuler 100 énergie.', progress: (s) => s.energy, target: 100, reward: { crystals: 5 } },
     { id: 'click_50', title: 'Main de fer', description: 'Effectuer 50 récoltes manuelles.', progress: (s) => s.totalClicks, target: 50, reward: { energy: 80, crystals: 6 } },
+    { id: 'crystals_20', title: 'Premières gemmes', description: 'Accumuler 20 cristaux.', progress: (s) => s.crystals, target: 20, reward: { energy: 80 } },
     { id: 'spend_200_energy', title: 'Premier chantier', description: 'Dépenser 200 énergie en améliorations/actions.', progress: (s) => s.spentEnergy, target: 200, reward: { crystals: 12 } },
     { id: 'buy_3_upgrades', title: 'Apprenti intendant', description: 'Acheter 3 améliorations.', progress: (s) => s.upgradesPurchased, target: 3, reward: { energy: 120, crystals: 4 } },
+    { id: 'energy_500', title: 'Stock stratégique', description: 'Accumuler 500 énergie.', progress: (s) => s.energy, target: 500, reward: { crystals: 25 } },
     { id: 'spend_500_energy', title: 'Investisseur prudent', description: 'Dépenser 500 énergie en améliorations/actions.', progress: (s) => s.spentEnergy, target: 500, reward: { crystals: 20 } },
     { id: 'energy_1500', title: 'Réserve impériale', description: 'Accumuler 1 500 énergie.', progress: (s) => s.energy, target: 1500, reward: { crystals: 35 } },
     { id: 'buy_8_upgrades', title: 'Intendant des ateliers', description: 'Acheter 8 améliorations.', progress: (s) => s.upgradesPurchased, target: 8, reward: { energy: 300 } },
 
     // Tier 2 — Apprenti
     { id: 'crystals_100', title: 'Collectionneur de gemmes', description: 'Accumuler 100 cristaux.', progress: (s) => s.crystals, target: 100, reward: { energy: 420 } },
+    { id: 'crystals_120', title: 'Trésor royal', description: 'Accumuler 120 cristaux.', progress: (s) => s.crystals, target: 120, reward: { energy: 450 } },
     { id: 'drones_10', title: 'Escadron complet', description: 'Posséder 10 drones récupérateurs.', progress: (s) => s.drones, target: 10, reward: { crystals: 45 } },
     { id: 'click_250', title: 'Battement régulier', description: 'Effectuer 250 récoltes manuelles.', progress: (s) => s.totalClicks, target: 250, reward: { energy: 600, crystals: 25 } },
     { id: 'extractors_6', title: 'Front minier', description: 'Posséder 6 extracteurs de cristaux.', progress: (s) => s.extractors, target: 6, reward: { energy: 1200 } },
+    { id: 'energy_5000', title: 'Réseau aquilonien', description: 'Accumuler 5 000 énergie.', progress: (s) => s.energy, target: 5000, reward: { crystals: 220 } },
     { id: 'energy_10000', title: 'Entrepôt royal', description: 'Accumuler 10 000 énergie.', progress: (s) => s.energy, target: 10000, reward: { crystals: 150 } },
     { id: 'buy_20_upgrades', title: 'Maître intendant', description: 'Acheter 20 améliorations.', progress: (s) => s.upgradesPurchased, target: 20, reward: { energy: 2000, crystals: 60 } },
+    { id: 'crystals_500', title: 'Cœur de gemmes', description: 'Accumuler 500 cristaux.', progress: (s) => s.crystals, target: 500, reward: { energy: 2200 } },
     { id: 'crystals_500_quest', title: 'Veine profonde', description: 'Accumuler 500 cristaux.', progress: (s) => s.crystals, target: 500, reward: { energy: 3000 } },
     { id: 'drones_25', title: 'Flotte aquilonienne', description: 'Posséder 25 drones récupérateurs.', progress: (s) => s.drones, target: 25, reward: { crystals: 200 } },
 
     // Tier 3 — Vétéran
     { id: 'extractors_20', title: 'Réseau minier', description: 'Posséder 20 extracteurs de cristaux.', progress: (s) => s.extractors, target: 20, reward: { energy: 8000, crystals: 150 } },
     { id: 'click_1000', title: 'Bras inlassable', description: 'Effectuer 1 000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 1000, reward: { energy: 4000, crystals: 120 } },
+    { id: 'energy_25000', title: 'Brasier d\'empire', description: 'Accumuler 25 000 énergie.', progress: (s) => s.energy, target: 25000, reward: { crystals: 700, gold: 2 } },
     { id: 'energy_50k', title: 'Grenier aquilonien', description: 'Accumuler 50 000 énergie.', progress: (s) => s.energy, target: 50000, reward: { crystals: 600, gold: 3 } },
     { id: 'crystals_2500', title: 'Cargaison de gemmes', description: 'Accumuler 2 500 cristaux.', progress: (s) => s.crystals, target: 2500, reward: { energy: 20000, gold: 5 } },
+    { id: 'crystals_2500_obj', title: 'Mur de cristal', description: 'Accumuler 2 500 cristaux.', progress: (s) => s.crystals, target: 2500, reward: { energy: 12000, gold: 3 } },
+    { id: 'gold_10', title: 'Premières pièces', description: 'Accumuler 10 or.', progress: (s) => s.gold, target: 10, reward: { crystals: 1500 } },
     { id: 'refinery_10', title: 'Raffineur expert', description: 'Atteindre le niveau 10 de la raffinerie.', progress: (s) => s.refineryLevel, target: 10, reward: { crystals: 400 } },
     { id: 'converter_5', title: 'Alchimiste confirmé', description: 'Atteindre le niveau 5 du convertisseur.', progress: (s) => s.converterLevel, target: 5, reward: { energy: 15000, gold: 4 } },
     { id: 'buy_40_upgrades', title: 'Grand architecte', description: 'Acheter 40 améliorations.', progress: (s) => s.upgradesPurchased, target: 40, reward: { crystals: 1200, gold: 8 } },
@@ -61,13 +50,19 @@ const questDefinitions = [
     { id: 'extractors_60', title: 'Réseau profond', description: 'Posséder 60 extracteurs de cristaux.', progress: (s) => s.extractors, target: 60, reward: { energy: 150000, gold: 30 } },
     { id: 'click_5000', title: 'Volonté indomptable', description: 'Effectuer 5 000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 5000, reward: { gold: 35, crystals: 5000 } },
     { id: 'energy_250k', title: 'Trésor de guerre', description: 'Accumuler 250 000 énergie.', progress: (s) => s.energy, target: 250000, reward: { crystals: 8000, gold: 45 } },
+    { id: 'energy_250k_obj', title: 'Cascade d\'énergie', description: 'Accumuler 250 000 énergie.', progress: (s) => s.energy, target: 250000, reward: { gold: 20, crystals: 4000 } },
     { id: 'crystals_15k', title: 'Chambre forte', description: 'Accumuler 15 000 cristaux.', progress: (s) => s.crystals, target: 15000, reward: { gold: 60 } },
+    { id: 'crystals_25k_obj', title: 'Mine royale', description: 'Accumuler 25 000 cristaux.', progress: (s) => s.crystals, target: 25000, reward: { gold: 35 } },
     { id: 'gold_500', title: 'Rançon royale', description: 'Accumuler 500 or.', progress: (s) => s.gold, target: 500, reward: { crystals: 25000, energy: 500000 } },
+    { id: 'gold_500_obj', title: 'Rançon du prince', description: 'Accumuler 500 or.', progress: (s) => s.gold, target: 500, reward: { crystals: 20000, energy: 300000 } },
 
     // Tier 5 — Héros
     { id: 'click_20000', title: 'Héros sans relâche', description: 'Effectuer 20 000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 20000, reward: { gold: 150, crystals: 20000 } },
+    { id: 'relics_5', title: 'Première relique', description: 'Accumuler 5 reliques.', progress: (s) => s.relics, target: 5, reward: { gold: 250, crystals: 40000 } },
     { id: 'energy_2M', title: 'Réserve titanesque', description: 'Accumuler 2 000 000 énergie.', progress: (s) => s.energy, target: 2000000, reward: { gold: 300, crystals: 50000 } },
+    { id: 'energy_2M_obj', title: 'Puits infini', description: 'Accumuler 2 000 000 énergie.', progress: (s) => s.energy, target: 2000000, reward: { gold: 180, relics: 1 } },
     { id: 'crystals_100k', title: 'Mine infinie', description: 'Accumuler 100 000 cristaux.', progress: (s) => s.crystals, target: 100000, reward: { gold: 500, relics: 2 } },
+    { id: 'crystals_500k', title: 'Falaise cristalline', description: 'Accumuler 500 000 cristaux.', progress: (s) => s.crystals, target: 500000, reward: { gold: 2500, relics: 12 } },
     { id: 'drones_300', title: 'Armée d\'acier', description: 'Posséder 300 drones récupérateurs.', progress: (s) => s.drones, target: 300, reward: { gold: 400, crystals: 40000 } },
     { id: 'gold_5k', title: 'Trésorier royal', description: 'Accumuler 5 000 or.', progress: (s) => s.gold, target: 5000, reward: { relics: 5, crystals: 80000 } },
     { id: 'relics_20', title: 'Éveil des anciens', description: 'Accumuler 20 reliques.', progress: (s) => s.relics, target: 20, reward: { gold: 2000, energy: 5000000 } },
@@ -75,10 +70,13 @@ const questDefinitions = [
     { id: 'converter_20', title: 'Grand alchimiste', description: 'Atteindre le niveau 20 du convertisseur.', progress: (s) => s.converterLevel, target: 20, reward: { gold: 800, crystals: 60000 } },
 
     // Tier 6 — Légende
+    { id: 'gold_50k', title: 'Dragon naissant', description: 'Accumuler 50 000 or.', progress: (s) => s.gold, target: 50000, reward: { relics: 40, crystals: 200000 } },
     { id: 'energy_20M', title: 'Colosse d\'énergie', description: 'Accumuler 20 000 000 énergie.', progress: (s) => s.energy, target: 20000000, reward: { relics: 25, gold: 5000 } },
+    { id: 'energy_50M', title: 'Âme du monde', description: 'Accumuler 50 000 000 énergie.', progress: (s) => s.energy, target: 50000000, reward: { relics: 120, gold: 25000 } },
     { id: 'crystals_1M', title: 'Palais de cristal', description: 'Accumuler 1 000 000 cristaux.', progress: (s) => s.crystals, target: 1000000, reward: { relics: 40, gold: 8000 } },
     { id: 'gold_100k', title: 'Dragon thésauriseur', description: 'Accumuler 100 000 or.', progress: (s) => s.gold, target: 100000, reward: { relics: 80, crystals: 500000 } },
     { id: 'relics_300', title: 'Gardien des âges', description: 'Accumuler 300 reliques.', progress: (s) => s.relics, target: 300, reward: { gold: 50000, crystals: 2000000 } },
+    { id: 'relics_500', title: 'Sanctuaire complet', description: 'Accumuler 500 reliques.', progress: (s) => s.relics, target: 500, reward: { gold: 80000, crystals: 3000000 } },
     { id: 'temple_15', title: 'Ordre des oubliés', description: 'Atteindre le niveau 15 du temple oublié.', progress: (s) => s.templeLevel, target: 15, reward: { relics: 60, gold: 10000 } },
     { id: 'vault_15', title: 'Coffres scellés', description: 'Atteindre le niveau 15 du coffre royal.', progress: (s) => s.vaultLevel, target: 15, reward: { gold: 20000, crystals: 750000 } },
     { id: 'buy_150_upgrades', title: 'Architecte mythique', description: 'Acheter 150 améliorations.', progress: (s) => s.upgradesPurchased, target: 150, reward: { relics: 35, gold: 15000 } },
@@ -120,11 +118,9 @@ const defaultState = {
     upgradesPurchased: 0,
     questPoints: 0,
     completedQuestIds: [],
-    completedObjectiveIds: [],
     activeQuestIds: [],
     productionBoostUntil: 0,
-    lastTimestamp: Date.now(),
-    lastOfflineGain: 0
+    lastTimestamp: Date.now()
 };
 
 const state = loadState();
@@ -133,7 +129,6 @@ let isResettingSave = false;
 
 const resourcesContainer = document.querySelector('#idle-resources');
 const upgradesContainer = document.querySelector('#idle-upgrades');
-const offlineGainLabel = document.querySelector('#offline-gain');
 const missionsContainer = document.querySelector('#idle-missions');
 const actionsContainer = document.querySelector('#idle-actions');
 
@@ -349,20 +344,7 @@ const actions = [
             state.gold += 35;
         }
     },
-    {
-        id: 'temporalShift',
-        title: 'Glissement temporel',
-        description: () => 'Saute instantanément à 5 minutes de production passive.',
-        getCost: () => ({ crystals: 1200, gold: 60 }),
-        run: () => {
-            const production = computeProductionPerSecond();
-            const skipSeconds = 300;
-            state.energy += production.energy * skipSeconds;
-            state.crystals += production.crystals * skipSeconds;
-            state.gold += production.gold * skipSeconds;
-            state.relics += production.relics * skipSeconds;
-        }
-    },
+
     {
         id: 'grandRitual',
         title: 'Grand rituel de Set',
@@ -383,8 +365,11 @@ function init() {
     bindEvents();
     applyOfflineProgress();
     processProgression();
+    renderActions();
+    renderUpgrades();
     render();
-    setInterval(tick, TICK_RATE_MS);
+    setInterval(tickFast, FAST_TICK_RATE_MS);
+    setInterval(tickSlow, SLOW_TICK_RATE_MS);
 }
 
 function bindEvents() {
@@ -397,6 +382,8 @@ function bindEvents() {
             }
             state.totalClicks += 1;
             processProgression();
+            renderActions();
+            renderUpgrades();
             render();
             scheduleSave();
         });
@@ -416,7 +403,7 @@ function bindEvents() {
 }
 
 
-function tick() {
+function tickFast() {
     const now = Date.now();
     const deltaSeconds = Math.max(0, (now - state.lastTimestamp) / 1000);
     state.lastTimestamp = now;
@@ -428,6 +415,11 @@ function tick() {
     processProgression();
     render();
     scheduleSave();
+}
+
+function tickSlow() {
+    renderActions();
+    renderUpgrades();
 }
 
 function computeProductionPerSecond() {
@@ -471,24 +463,8 @@ function applyOfflineProgress() {
 }
 
 function processProgression() {
-    completeObjectives();
     completeQuests();
     ensureQuestSlots();
-}
-
-function completeObjectives() {
-    objectiveDefinitions.forEach((objective) => {
-        if (state.completedObjectiveIds.includes(objective.id)) {
-            return;
-        }
-
-        if (!objective.requirement(state)) {
-            return;
-        }
-
-        applyReward(objective.reward);
-        state.completedObjectiveIds.push(objective.id);
-    });
 }
 
 function completeQuests() {
@@ -536,10 +512,7 @@ const RESOURCE_DISPLAY = [
 
 function render() {
     renderResources();
-    renderActions();
-    renderUpgrades();
     renderMissions();
-    renderOfflineGain();
 }
 
 function renderResources() {
@@ -571,8 +544,8 @@ function renderActions() {
                     <p class="idle-upgrade__description">${action.description()}</p>
                     <p class="idle-upgrade__meta">Coût: ${formatCost(cost)} ${info ? `• ${info}` : ''}</p>
                 </div>
-                <button class="button" type="button" data-action-id="${action.id}" ${canRun ? '' : 'disabled'}>
-                    Lancer
+                <button class="button" type="button" data-action-id="${action.id}" ${canRun ? '' : 'disabled'} aria-label="Lancer" title="Lancer">
+                    <i class="fa-solid fa-play"></i>
                 </button>
             </article>
         `;
@@ -596,6 +569,8 @@ function renderActions() {
             payCost(cost);
             action.run();
             processProgression();
+            renderActions();
+            renderUpgrades();
             render();
             scheduleSave();
         });
@@ -614,8 +589,8 @@ function renderUpgrades() {
                     <p class="idle-upgrade__description">${upgrade.description}</p>
                     <p class="idle-upgrade__meta">Niveau: ${formatNumber(upgrade.getLevel())} • Coût: ${formatCost(cost)}</p>
                 </div>
-                <button class="button" type="button" data-upgrade-id="${upgrade.id}" ${canAfford ? '' : 'disabled'}>
-                    Acheter
+                <button class="button" type="button" data-upgrade-id="${upgrade.id}" ${canAfford ? '' : 'disabled'} aria-label="Acheter" title="Acheter">
+                    <i class="fa-solid fa-arrow-up"></i>
                 </button>
             </article>
         `;
@@ -637,6 +612,8 @@ function renderUpgrades() {
             upgrade.buy();
             state.upgradesPurchased += 1;
             processProgression();
+            renderActions();
+            renderUpgrades();
             render();
             scheduleSave();
         });
@@ -666,19 +643,7 @@ function renderMissions() {
         `;
     });
 
-    const objectiveCards = objectiveDefinitions.map((objective) => {
-        const completed = state.completedObjectiveIds.includes(objective.id);
-        return `
-            <article class="idle-objective ${completed ? 'idle-objective--done' : ''}">
-                <p class="idle-objective__badge">Objectif royaume</p>
-                <p class="idle-upgrade__title">${objective.title}</p>
-                <p class="idle-upgrade__description">${objective.description}</p>
-                <p class="idle-upgrade__meta">Récompense: ${formatCost(objective.reward)}${completed ? ' • Terminé' : ''}</p>
-            </article>
-        `;
-    });
-
-    const cards = [...activeQuestCards, ...objectiveCards].filter(Boolean);
+    const cards = activeQuestCards.filter(Boolean);
 
     if (cards.length === 0) {
         missionsContainer.innerHTML = '<p class="idle-empty">Toutes les missions sont terminées.</p>';
@@ -686,14 +651,6 @@ function renderMissions() {
     }
 
     missionsContainer.innerHTML = cards.join('');
-}
-
-function renderOfflineGain() {
-    if (state.lastOfflineGain > 0) {
-        offlineGainLabel.textContent = `Progression hors-ligne récupérée: +${formatNumber(state.lastOfflineGain)} ressources.`;
-    } else {
-        offlineGainLabel.textContent = 'Aucune progression hors-ligne détectée cette session.';
-    }
 }
 
 function getQuestById(id) {
@@ -827,11 +784,14 @@ function loadState() {
 
     try {
         const parsed = JSON.parse(raw);
+        const mergedQuestIds = [
+            ...(Array.isArray(parsed.completedQuestIds) ? parsed.completedQuestIds : []),
+            ...(Array.isArray(parsed.completedObjectiveIds) ? parsed.completedObjectiveIds : [])
+        ];
         return {
             ...structuredClone(defaultState),
             ...parsed,
-            completedQuestIds: Array.isArray(parsed.completedQuestIds) ? parsed.completedQuestIds : [],
-            completedObjectiveIds: Array.isArray(parsed.completedObjectiveIds) ? parsed.completedObjectiveIds : [],
+            completedQuestIds: mergedQuestIds,
             activeQuestIds: Array.isArray(parsed.activeQuestIds) ? parsed.activeQuestIds : []
         };
     } catch {
