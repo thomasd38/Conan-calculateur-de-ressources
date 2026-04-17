@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer">
     <title>Conan Exiles - Idle Aquilonien</title>
 </head>
+
 <body class="idle-hud-body">
     <div class="idle-header__resources" id="idle-resources" aria-label="Ressources"></div>
     <main class="idle-simple" aria-label="Interface simple du mini-jeu idle">
-        <header class="idle-simple__header">
-            <div class="idle-header-icons">
-                <button class="idle-icon-btn" title="Voir les actions" aria-label="Actions"><i class="fa-solid fa-bolt"></i></button>
-                <button class="idle-icon-btn" title="Voir les améliorations" aria-label="Améliorations"><i class="fa-solid fa-arrow-up"></i></button>
-                <button class="idle-icon-btn" title="Voir les quêtes" aria-label="Quêtes"><i class="fa-solid fa-scroll"></i></button>
-                <button class="idle-icon-btn" title="Paramètres" aria-label="Paramètres"><i class="fa-solid fa-gear"></i></button>
-            </div>
-        </header>
+        <nav class="idle-side-nav">
+            <button class="idle-icon-btn" data-target="actions" title="Voir les actions" aria-label="Actions"><i class="fa-solid fa-bolt"></i></button>
+            <button class="idle-icon-btn" data-target="upgrades" title="Voir les améliorations" aria-label="Améliorations"><i class="fa-solid fa-arrow-up"></i></button>
+            <button class="idle-icon-btn" data-target="quests" title="Voir les quêtes" aria-label="Quêtes"><i class="fa-solid fa-scroll"></i></button>
+            <button class="idle-icon-btn" data-target="settings" title="Paramètres" aria-label="Paramètres"><i class="fa-solid fa-gear"></i></button>
+        </nav>
 
-        <section class="idle-column" aria-label="Colonne actions">
-            <h2>Actions</h2>
-            <button class="button hud-action-button" id="manual-collect" type="button">Récolter (+énergie)</button>
-            <button class="button button--danger hud-action-button" id="button-reset-save-idle" type="button">Réinitialiser la sauvegarde idle</button>
-            <div class="idle-action-list" id="idle-actions"></div>
-        </section>
+        <div class="idle-center-action">
+            <button class="idle-big-collect-btn" id="manual-collect" type="button" aria-label="Récolter de l'énergie">
+                <i class="fa-solid fa-hammer"></i>
+            </button>
+        </div>
 
-        <section class="idle-column" aria-label="Colonne améliorations">
-            <h2>Améliorations</h2>
-            <div class="idle-upgrades" id="idle-upgrades"></div>
-        </section>
+        <aside id="idle-side-panel" class="idle-side-panel">
+            <section class="idle-panel-content" id="panel-actions">
+                <h2>Actions</h2>
+                <div class="idle-action-list" id="idle-actions"></div>
+            </section>
 
-        <section class="idle-column" aria-label="Colonne quêtes et objectifs">
-            <h2>Quêtes</h2>
-            <div class="idle-missions" id="idle-missions"></div>
-        </section>
+            <section class="idle-panel-content" id="panel-upgrades">
+                <h2>Améliorations</h2>
+                <div class="idle-upgrades" id="idle-upgrades"></div>
+            </section>
+
+            <section class="idle-panel-content" id="panel-quests">
+                <h2>Quêtes</h2>
+                <div class="idle-missions" id="idle-missions"></div>
+            </section>
+            
+            <section class="idle-panel-content" id="panel-settings">
+                <h2>Paramètres</h2>
+                <div style="margin-top: 1rem;">
+                    <button class="button button--danger hud-action-button" id="button-reset-save-idle" type="button" style="width:100%">Réinitialiser la sauvegarde idle</button>
+                    <a class="button button--secondary" href="index.html" style="margin-top: 1rem; display: block; text-align: center;">Retourner au calculateur de ressources</a>
+                </div>
+            </section>
+        </aside>
     </main>
 
     <script src="idle.js"></script>
 </body>
+
 </html>

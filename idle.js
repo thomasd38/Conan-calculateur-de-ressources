@@ -376,11 +376,22 @@ function bindEvents() {
     const manualCollectButton = document.querySelector('#manual-collect');
     if (manualCollectButton) {
         manualCollectButton.addEventListener('click', () => {
-            state.energy += state.clickPower;
+            const energyGain = state.clickPower;
+            let crystalGain = 0;
+
+            state.energy += energyGain;
             if (state.clickCrystalPower > 0) {
-                state.crystals += state.clickCrystalPower;
+                crystalGain = state.clickCrystalPower;
+                state.crystals += crystalGain;
             }
             state.totalClicks += 1;
+
+            const rect = manualCollectButton.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            spawnFloatingText(`+${formatNumber(energyGain)}`, centerX, centerY);
+
             processProgression();
             renderActions();
             renderUpgrades();
@@ -388,6 +399,34 @@ function bindEvents() {
             scheduleSave();
         });
     }
+
+    const navButtons = document.querySelectorAll('.idle-side-nav .idle-icon-btn');
+    const sidePanel = document.getElementById('idle-side-panel');
+    const centerAction = document.querySelector('.idle-center-action');
+    const panelContents = document.querySelectorAll('.idle-panel-content');
+
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = 'panel-' + btn.getAttribute('data-target');
+            const targetContent = document.getElementById(targetId);
+
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                sidePanel.classList.remove('open');
+                centerAction.classList.remove('menu-open');
+                if (targetContent) targetContent.classList.remove('active');
+            } else {
+                navButtons.forEach(b => b.classList.remove('active'));
+                panelContents.forEach(c => c.classList.remove('active'));
+
+                btn.classList.add('active');
+                if (targetContent) targetContent.classList.add('active');
+                
+                sidePanel.classList.add('open');
+                centerAction.classList.add('menu-open');
+            }
+        });
+    });
 
     const resetSaveButton = document.querySelector('#button-reset-save-idle');
     if (resetSaveButton) {
@@ -498,7 +537,7 @@ function ensureQuestSlots() {
         .map((quest) => quest.id)
         .filter((questId) => !state.completedQuestIds.includes(questId) && !state.activeQuestIds.includes(questId));
 
-    while (state.activeQuestIds.length < QUEST_SLOTS && available.length > 0) {
+    while (available.length > 0) {
         state.activeQuestIds.push(available.shift());
     }
 }
@@ -621,34 +660,51 @@ function renderUpgrades() {
 }
 
 function renderMissions() {
-    const activeQuestCards = state.activeQuestIds.map((questId) => {
-        const quest = getQuestById(questId);
-        if (!quest) {
-            return '';
+    let uncompletedCount = 0;
+
+    const cards = questDefinitions.map((quest) => {
+        const isCompleted = state.completedQuestIds.includes(quest.id);
+
+        if (isCompleted) {
+            return `
+                <article class="idle-objective idle-objective--done">
+                    <p class="idle-objective__badge">Terminée</p>
+                    <p class="idle-upgrade__title" style="color: #6ce5b1;">${quest.title}</p>
+                </article>
+            `;
         }
 
-        const progressValue = Math.min(quest.target, quest.progress(state));
-        const ratio = quest.target <= 0 ? 0 : (progressValue / quest.target) * 100;
+        uncompletedCount++;
 
-        return `
-            <article class="idle-objective idle-objective--quest">
-                <p class="idle-objective__badge">Quête active</p>
-                <p class="idle-upgrade__title">${quest.title}</p>
-                <p class="idle-upgrade__description">${quest.description}</p>
-                <p class="idle-upgrade__meta">Progression: ${formatNumber(progressValue)} / ${formatNumber(quest.target)} • Récompense: ${formatCost(quest.reward)}</p>
-                <div class="idle-progress">
-                    <span style="width: ${Math.min(100, ratio)}%"></span>
-                </div>
-            </article>
-        `;
+        if (uncompletedCount <= 5) {
+            const progressValue = Math.min(quest.target, quest.progress(state));
+            const ratio = quest.target <= 0 ? 0 : (progressValue / quest.target) * 100;
+
+            return `
+                <article class="idle-objective idle-objective--quest">
+                    <p class="idle-objective__badge">Quête active</p>
+                    <p class="idle-upgrade__title">${quest.title}</p>
+                    <p class="idle-upgrade__description">${quest.description}</p>
+                    <p class="idle-upgrade__meta">Progression: ${formatNumber(progressValue)} / ${formatNumber(quest.target)} • Récompense: ${formatCost(quest.reward)}</p>
+                    <div class="idle-progress">
+                        <span style="width: ${Math.min(100, ratio)}%"></span>
+                    </div>
+                </article>
+            `;
+        } else {
+            return `
+                <article class="idle-objective idle-objective--quest" style="opacity: 0.4;">
+                    <p class="idle-objective__badge">Quête verrouillée</p>
+                    <p class="idle-upgrade__title">???</p>
+                    <p class="idle-upgrade__description">?????</p>
+                    <p class="idle-upgrade__meta">Progression: ??? / ??? • Récompense: ???</p>
+                    <div class="idle-progress">
+                        <span style="width: 0%"></span>
+                    </div>
+                </article>
+            `;
+        }
     });
-
-    const cards = activeQuestCards.filter(Boolean);
-
-    if (cards.length === 0) {
-        missionsContainer.innerHTML = '<p class="idle-empty">Toutes les missions sont terminées.</p>';
-        return;
-    }
 
     missionsContainer.innerHTML = cards.join('');
 }
@@ -680,6 +736,27 @@ function formatCost(cost) {
     return Object.entries(cost)
         .map(([key, value]) => `${formatNumber(value)} ${RESOURCE_LABELS[key] || key}`)
         .join(' • ');
+}
+
+function spawnFloatingText(textStr, x, y) {
+    const text = document.createElement('div');
+    text.className = 'idle-floating-text';
+    text.textContent = textStr;
+    
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 100 + Math.random() * 50;
+    
+    const finalX = x + Math.cos(angle) * distance;
+    const finalY = y + Math.sin(angle) * distance;
+    
+    text.style.left = `${finalX}px`;
+    text.style.top = `${finalY}px`;
+    
+    document.body.appendChild(text);
+    
+    setTimeout(() => {
+        text.remove();
+    }, 1000);
 }
 
 function hasEnoughResources(cost) {
