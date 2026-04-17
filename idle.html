@@ -15,10 +15,14 @@
     <div class="idle-header__resources" id="idle-resources" aria-label="Ressources"></div>
     <main class="idle-simple" aria-label="Interface simple du mini-jeu idle">
         <nav class="idle-side-nav">
-            <button class="idle-icon-btn" data-target="actions" title="Voir les actions" aria-label="Actions"><i class="fa-solid fa-bolt"></i></button>
-            <button class="idle-icon-btn" data-target="upgrades" title="Voir les améliorations" aria-label="Améliorations"><i class="fa-solid fa-arrow-up"></i></button>
-            <button class="idle-icon-btn" data-target="quests" title="Voir les quêtes" aria-label="Quêtes"><i class="fa-solid fa-scroll"></i></button>
-            <button class="idle-icon-btn" data-target="settings" title="Paramètres" aria-label="Paramètres"><i class="fa-solid fa-gear"></i></button>
+            <button class="idle-icon-btn" data-target="actions" title="Voir les actions" aria-label="Actions"><i
+                    class="fa-solid fa-bolt"></i></button>
+            <button class="idle-icon-btn" data-target="upgrades" title="Voir les améliorations"
+                aria-label="Améliorations"><i class="fa-solid fa-arrow-up"></i></button>
+            <button class="idle-icon-btn" data-target="quests" title="Voir les quêtes" aria-label="Quêtes"><i
+                    class="fa-solid fa-scroll"></i></button>
+            <button class="idle-icon-btn" data-target="settings" title="Paramètres" aria-label="Paramètres"><i
+                    class="fa-solid fa-gear"></i></button>
         </nav>
 
         <div class="idle-center-action">
@@ -42,16 +46,46 @@
                 <h2>Quêtes</h2>
                 <div class="idle-missions" id="idle-missions"></div>
             </section>
-            
+
             <section class="idle-panel-content" id="panel-settings">
                 <h2>Paramètres</h2>
                 <div style="margin-top: 1rem;">
-                    <button class="button button--danger hud-action-button" id="button-reset-save-idle" type="button" style="width:100%">Réinitialiser la sauvegarde idle</button>
-                    <a class="button button--secondary" href="index.html" style="margin-top: 1rem; display: block; text-align: center;">Retourner au calculateur de ressources</a>
+                    <button class="button hud-action-button" id="button-theme-toggle" type="button"
+                        style="width:100%; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <i class="fa-solid fa-sun" id="theme-toggle-icon"></i> Passer en thème clair
+                    </button>
+                    <button class="button button--danger hud-action-button" id="button-reset-save-idle" type="button"
+                        style="width:100%">Réinitialiser la sauvegarde idle</button>
+                    <a class="button button--secondary" href="index.html"
+                        style="margin-top: 1rem; display: block; text-align: center;">Retourner au calculateur de
+                        ressources</a>
                 </div>
             </section>
         </aside>
     </main>
+
+    <!-- Notifications de quêtes complétées -->
+    <div id="quest-notifications" class="quest-notif-container" aria-live="polite" aria-label="Notifications de quêtes">
+    </div>
+
+    <!-- Popup de récompense de quête -->
+    <div id="quest-popup-overlay" class="quest-popup-overlay" role="dialog" aria-modal="true"
+        aria-labelledby="quest-popup-title">
+        <div class="quest-popup">
+            <div class="quest-popup__header">
+                <i class="fa-solid fa-scroll quest-popup__icon" aria-hidden="true"></i>
+                <h2 id="quest-popup-title" class="quest-popup__title"></h2>
+            </div>
+            <p id="quest-popup-lore" class="quest-popup__lore"></p>
+            <p id="quest-popup-reward" class="quest-popup__reward"></p>
+            <div class="quest-popup__actions">
+                <button class="quest-popup__close" id="quest-popup-close" type="button" aria-label="Fermer">✕</button>
+                <button class="button quest-popup__claim" id="quest-popup-claim" type="button">
+                    <i class="fa-solid fa-gift" aria-hidden="true"></i> Recevoir mes récompenses !
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script src="idle.js"></script>
 </body>

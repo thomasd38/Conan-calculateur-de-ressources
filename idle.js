@@ -119,6 +119,7 @@ const defaultState = {
     questPoints: 0,
     completedQuestIds: [],
     activeQuestIds: [],
+    pendingQuestIds: [],
     productionBoostUntil: 0,
     lastTimestamp: Date.now()
 };
@@ -126,6 +127,7 @@ const defaultState = {
 const state = loadState();
 let lastSaveAt = 0;
 let isResettingSave = false;
+const activeNotifications = new Map();
 
 const resourcesContainer = document.querySelector('#idle-resources');
 const upgradesContainer = document.querySelector('#idle-upgrades');
@@ -147,6 +149,7 @@ const upgrades = [
         id: 'drones',
         title: 'Drone récupérateur',
         description: '+1 énergie / sec',
+        reqQuest: 'energy_100', // Exemple: Débloqué après avoir atteint 100 énergie
         getLevel: () => state.drones,
         getCost: () => ({ energy: Math.floor(45 * Math.pow(1.22, state.drones)) }),
         buy: () => {
@@ -167,6 +170,7 @@ const upgrades = [
         id: 'refinery',
         title: 'Raffinerie royale',
         description: '+20% à l\'énergie et aux cristaux produits.',
+        reqQuest: 'crystals_20', // Exemple: Débloqué après avoir eu 20 cristaux
         getLevel: () => state.refineryLevel,
         getCost: () => ({ crystals: Math.floor(12 * Math.pow(1.6, state.refineryLevel)) }),
         buy: () => {
@@ -262,6 +266,7 @@ const actions = [
         id: 'transmute',
         title: 'Transmutation',
         description: () => `Convertit ${formatNumber(getTransmuteCost())} énergie en ${formatNumber(getTransmuteReward())} cristaux.`,
+        reqQuest: 'spend_200_energy', // Exemple: Débloqué après avoir dépensé 200 énergie
         getCost: () => ({ energy: getTransmuteCost() }),
         run: () => {
             state.crystals += getTransmuteReward();
@@ -288,6 +293,7 @@ const actions = [
         id: 'expedition',
         title: 'Expédition de pillage',
         description: () => 'Dépense des cristaux pour un paquet mixte de ressources.',
+        reqQuest: 'crystals_100', // Exemple: Débloqué après avoir eu 100 cristaux
         getCost: () => ({ crystals: 20 }),
         run: () => {
             state.energy += 260;
@@ -361,10 +367,14 @@ const actions = [
 ];
 
 function init() {
+    const savedTheme = localStorage.getItem('conan_idle_theme') || 'dark';
+    applyTheme(savedTheme);
+    
     ensureQuestSlots();
     bindEvents();
     applyOfflineProgress();
     processProgression();
+    state.pendingQuestIds.forEach(id => spawnQuestNotification(id));
     renderActions();
     renderUpgrades();
     render();
@@ -433,12 +443,47 @@ function bindEvents() {
         resetSaveButton.addEventListener('click', resetIdleSave);
     }
 
+    const themeToggleBtn = document.getElementById('button-theme-toggle');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.body.classList.contains('theme-light') ? 'light' : 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('conan_idle_theme', newTheme);
+            applyTheme(newTheme);
+        });
+    }
+
+    const questOverlay = document.getElementById('quest-popup-overlay');
+    const questClose   = document.getElementById('quest-popup-close');
+    const questClaim   = document.getElementById('quest-popup-claim');
+    if (questClose)   questClose.addEventListener('click', closeQuestPopup);
+    if (questOverlay) questOverlay.addEventListener('click', (e) => { if (e.target === questOverlay) closeQuestPopup(); });
+    if (questClaim)   questClaim.addEventListener('click', () => {
+        const id = questClaim.getAttribute('data-quest-id');
+        if (id) claimQuestReward(id);
+    });
+
     window.addEventListener('beforeunload', () => {
         if (isResettingSave) {
             return;
         }
         saveState();
     });
+}
+
+function applyTheme(theme) {
+    const btn = document.getElementById('button-theme-toggle');
+    if (theme === 'light') {
+        document.body.classList.add('theme-light');
+        if (btn) {
+            btn.innerHTML = '<i class="fa-solid fa-moon" id="theme-toggle-icon"></i> Passer en thème sombre';
+        }
+    } else {
+        document.body.classList.remove('theme-light');
+        if (btn) {
+            btn.innerHTML = '<i class="fa-solid fa-sun" id="theme-toggle-icon"></i> Passer en thème clair';
+        }
+    }
 }
 
 
@@ -507,35 +552,28 @@ function processProgression() {
 }
 
 function completeQuests() {
-    const completedNow = [];
-
-    state.activeQuestIds.forEach((questId) => {
+    const readyIds = state.activeQuestIds.filter((questId) => {
         const quest = getQuestById(questId);
-        if (!quest) {
-            return;
-        }
-
-        if (quest.progress(state) < quest.target) {
-            return;
-        }
-
-        state.completedQuestIds.push(quest.id);
-        completedNow.push(quest.id);
-        state.questPoints += 1;
-        applyReward(quest.reward);
+        return quest && quest.progress(state) >= quest.target && !state.pendingQuestIds.includes(questId);
     });
 
-    if (completedNow.length === 0) {
-        return;
-    }
+    if (readyIds.length === 0) return;
 
-    state.activeQuestIds = state.activeQuestIds.filter((questId) => !completedNow.includes(questId));
+    readyIds.forEach((questId) => {
+        state.activeQuestIds = state.activeQuestIds.filter((id) => id !== questId);
+        state.pendingQuestIds.push(questId);
+        spawnQuestNotification(questId);
+    });
 }
 
 function ensureQuestSlots() {
     const available = questDefinitions
         .map((quest) => quest.id)
-        .filter((questId) => !state.completedQuestIds.includes(questId) && !state.activeQuestIds.includes(questId));
+        .filter((questId) =>
+            !state.completedQuestIds.includes(questId) &&
+            !state.activeQuestIds.includes(questId) &&
+            !state.pendingQuestIds.includes(questId)
+        );
 
     while (available.length > 0) {
         state.activeQuestIds.push(available.shift());
@@ -576,7 +614,9 @@ function renderResources() {
 }
 
 function renderActions() {
-    actionsContainer.innerHTML = actions.map((action) => {
+    const availableActions = actions.filter(action => !action.reqQuest || state.completedQuestIds.includes(action.reqQuest));
+
+    actionsContainer.innerHTML = availableActions.map((action) => {
         const cost = action.getCost();
         const canAfford = hasEnoughResources(cost);
         const customRunState = action.canRun ? action.canRun() : true;
@@ -597,7 +637,7 @@ function renderActions() {
         `;
     }).join('');
 
-    actions.forEach((action) => {
+    availableActions.forEach((action) => {
         const button = actionsContainer.querySelector(`[data-action-id="${action.id}"]`);
         if (!button) {
             return;
@@ -624,7 +664,9 @@ function renderActions() {
 }
 
 function renderUpgrades() {
-    upgradesContainer.innerHTML = upgrades.map((upgrade) => {
+    const availableUpgrades = upgrades.filter(upgrade => !upgrade.reqQuest || state.completedQuestIds.includes(upgrade.reqQuest));
+
+    upgradesContainer.innerHTML = availableUpgrades.map((upgrade) => {
         const cost = upgrade.getCost();
         const canAfford = hasEnoughResources(cost);
 
@@ -642,7 +684,7 @@ function renderUpgrades() {
         `;
     }).join('');
 
-    upgrades.forEach((upgrade) => {
+    availableUpgrades.forEach((upgrade) => {
         const button = upgradesContainer.querySelector(`[data-upgrade-id="${upgrade.id}"]`);
         if (!button) {
             return;
@@ -730,6 +772,67 @@ function getTransmuteReward() {
 
 function isBoostActive() {
     return state.productionBoostUntil > Date.now();
+}
+
+function spawnQuestNotification(questId) {
+    const quest = getQuestById(questId);
+    if (!quest || activeNotifications.has(questId)) return;
+    const container = document.getElementById('quest-notifications');
+    if (!container) return;
+
+    const notif = document.createElement('div');
+    notif.className = 'quest-notif';
+    notif.setAttribute('data-quest-id', questId);
+    notif.innerHTML = `
+        <i class="fa-solid fa-scroll quest-notif__icon" aria-hidden="true"></i>
+        <div class="quest-notif__body">
+            <p class="quest-notif__title">${quest.title} !</p>
+            <p class="quest-notif__sub">Quête terminée — cliquez pour réclamer</p>
+        </div>
+        <i class="fa-solid fa-chevron-right quest-notif__arrow" aria-hidden="true"></i>
+    `;
+    notif.addEventListener('click', () => showQuestPopup(questId));
+    container.appendChild(notif);
+    activeNotifications.set(questId, notif);
+    requestAnimationFrame(() => requestAnimationFrame(() => notif.classList.add('quest-notif--visible')));
+}
+
+function removeQuestNotification(questId) {
+    const notif = activeNotifications.get(questId);
+    if (!notif) return;
+    notif.classList.remove('quest-notif--visible');
+    notif.classList.add('quest-notif--exit');
+    setTimeout(() => { notif.remove(); activeNotifications.delete(questId); }, 400);
+}
+
+function showQuestPopup(questId) {
+    const quest = getQuestById(questId);
+    if (!quest) return;
+    document.getElementById('quest-popup-title').textContent = quest.title;
+    document.getElementById('quest-popup-lore').textContent  = quest.description;
+    document.getElementById('quest-popup-reward').innerHTML  = 'Récompense : ' + formatCost(quest.reward);
+    document.getElementById('quest-popup-claim').setAttribute('data-quest-id', questId);
+    document.getElementById('quest-popup-overlay').classList.add('active');
+}
+
+function closeQuestPopup() {
+    document.getElementById('quest-popup-overlay').classList.remove('active');
+}
+
+function claimQuestReward(questId) {
+    const quest = getQuestById(questId);
+    if (!quest || !state.pendingQuestIds.includes(questId)) return;
+    state.pendingQuestIds = state.pendingQuestIds.filter(id => id !== questId);
+    state.completedQuestIds.push(questId);
+    state.questPoints += 1;
+    applyReward(quest.reward);
+    closeQuestPopup();
+    removeQuestNotification(questId);
+    processProgression();
+    renderActions();
+    renderUpgrades();
+    render();
+    scheduleSave();
 }
 
 const RESOURCE_LABELS = {
@@ -887,7 +990,8 @@ function loadState() {
             ...structuredClone(defaultState),
             ...parsed,
             completedQuestIds: mergedQuestIds,
-            activeQuestIds: Array.isArray(parsed.activeQuestIds) ? parsed.activeQuestIds : []
+            activeQuestIds: Array.isArray(parsed.activeQuestIds) ? parsed.activeQuestIds : [],
+            pendingQuestIds: Array.isArray(parsed.pendingQuestIds) ? parsed.pendingQuestIds : []
         };
     } catch {
         return structuredClone(defaultState);
