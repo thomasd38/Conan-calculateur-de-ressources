@@ -880,6 +880,12 @@ body.idle-hud-body {
     flex-direction: column;
     gap: 0.75rem;
     padding-bottom: 3rem;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.idle-panel-content > div::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
 }
 
 .idle-panel-content.active {

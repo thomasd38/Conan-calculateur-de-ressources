@@ -155,7 +155,7 @@ const upgrades = [
     },
     {
         id: 'extractors',
-        title: 'Extracteur de cristaux',
+        title: 'Extracteur de minerai',
         description: '+0,35 cristal / sec',
         getLevel: () => state.extractors,
         getCost: () => ({ energy: Math.floor(130 * Math.pow(1.3, state.extractors)) }),
@@ -421,7 +421,7 @@ function bindEvents() {
 
                 btn.classList.add('active');
                 if (targetContent) targetContent.classList.add('active');
-                
+
                 sidePanel.classList.add('open');
                 centerAction.classList.add('menu-open');
             }
@@ -557,7 +557,14 @@ function render() {
 function renderResources() {
     const production = computeProductionPerSecond();
 
-    resourcesContainer.innerHTML = RESOURCE_DISPLAY.map((resource) => `
+    const visibleResources = RESOURCE_DISPLAY.filter((resource) => {
+        if (resource.key === 'energy') return true;
+        
+        const spentKey = 'spent' + resource.key.charAt(0).toUpperCase() + resource.key.slice(1);
+        return state[resource.key] > 0 || state[spentKey] > 0;
+    });
+
+    resourcesContainer.innerHTML = visibleResources.map((resource) => `
         <div class="idle-resource" title="${resource.label}">
             <i class="${resource.icon} idle-resource__icon" aria-hidden="true"></i>
             <div class="idle-resource__info">
@@ -579,8 +586,8 @@ function renderActions() {
         return `
             <article class="idle-upgrade ${canRun ? '' : 'idle-upgrade--disabled'}">
                 <div>
-                    <p class="idle-upgrade__title">${action.title}</p>
-                    <p class="idle-upgrade__description">${action.description()}</p>
+                    <p class="idle-upgrade__title">${formatText(action.title)}</p>
+                    <p class="idle-upgrade__description">${formatText(action.description())}</p>
                     <p class="idle-upgrade__meta">Coût: ${formatCost(cost)} ${info ? `• ${info}` : ''}</p>
                 </div>
                 <button class="button" type="button" data-action-id="${action.id}" ${canRun ? '' : 'disabled'} aria-label="Lancer" title="Lancer">
@@ -624,8 +631,8 @@ function renderUpgrades() {
         return `
             <article class="idle-upgrade ${canAfford ? '' : 'idle-upgrade--disabled'}">
                 <div>
-                    <p class="idle-upgrade__title">${upgrade.title}</p>
-                    <p class="idle-upgrade__description">${upgrade.description}</p>
+                    <p class="idle-upgrade__title">${formatText(upgrade.title)}</p>
+                    <p class="idle-upgrade__description">${formatText(upgrade.description)}</p>
                     <p class="idle-upgrade__meta">Niveau: ${formatNumber(upgrade.getLevel())} • Coût: ${formatCost(cost)}</p>
                 </div>
                 <button class="button" type="button" data-upgrade-id="${upgrade.id}" ${canAfford ? '' : 'disabled'} aria-label="Acheter" title="Acheter">
@@ -683,8 +690,8 @@ function renderMissions() {
             return `
                 <article class="idle-objective idle-objective--quest">
                     <p class="idle-objective__badge">Quête active</p>
-                    <p class="idle-upgrade__title">${quest.title}</p>
-                    <p class="idle-upgrade__description">${quest.description}</p>
+                    <p class="idle-upgrade__title">${formatText(quest.title)}</p>
+                    <p class="idle-upgrade__description">${formatText(quest.description)}</p>
                     <p class="idle-upgrade__meta">Progression: ${formatNumber(progressValue)} / ${formatNumber(quest.target)} • Récompense: ${formatCost(quest.reward)}</p>
                     <div class="idle-progress">
                         <span style="width: ${Math.min(100, ratio)}%"></span>
@@ -726,11 +733,22 @@ function isBoostActive() {
 }
 
 const RESOURCE_LABELS = {
-    energy: 'énergie',
-    crystals: 'cristaux',
-    gold: 'or',
-    relics: 'reliques'
+    energy: '<i class="fa-solid fa-bolt" title="énergie"></i>',
+    crystals: '<i class="fa-solid fa-gem" title="cristaux"></i>',
+    gold: '<i class="fa-solid fa-coins" title="or"></i>',
+    relics: '<i class="fa-solid fa-monument" title="reliques"></i>'
 };
+
+function formatText(text) {
+    if (!text) return '';
+    return text
+        .replace(/d'énergie|d'energie/gi, "d'<i class=\"fa-solid fa-bolt\" title=\"énergie\"></i>")
+        .replace(/l'énergie|l'energie/gi, "l'<i class=\"fa-solid fa-bolt\" title=\"énergie\"></i>")
+        .replace(/(?:\b|\s|^)(énergie|energie)(?:\b|\s|$|[.,])/gi, (match, p1) => match.replace(p1, '<i class="fa-solid fa-bolt" title="énergie"></i>'))
+        .replace(/\b(cristaux|cristal|gemmes|gemme)\b/gi, '<i class="fa-solid fa-gem" title="cristaux"></i>')
+        .replace(/\bor\b/gi, '<i class="fa-solid fa-coins" title="or"></i>')
+        .replace(/\b(reliques|relique)\b/gi, '<i class="fa-solid fa-monument" title="reliques"></i>');
+}
 
 function formatCost(cost) {
     return Object.entries(cost)
@@ -742,18 +760,18 @@ function spawnFloatingText(textStr, x, y) {
     const text = document.createElement('div');
     text.className = 'idle-floating-text';
     text.textContent = textStr;
-    
+
     const angle = Math.random() * Math.PI * 2;
     const distance = 100 + Math.random() * 50;
-    
+
     const finalX = x + Math.cos(angle) * distance;
     const finalY = y + Math.sin(angle) * distance;
-    
+
     text.style.left = `${finalX}px`;
     text.style.top = `${finalY}px`;
-    
+
     document.body.appendChild(text);
-    
+
     setTimeout(() => {
         text.remove();
     }, 1000);
