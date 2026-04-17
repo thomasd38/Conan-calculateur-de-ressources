@@ -191,6 +191,7 @@ select {
 }
 
 .stat-card {
+    position: relative;
     background: var(--color-surface-alt);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
@@ -207,6 +208,17 @@ select {
     font-size: 1.5rem;
     font-weight: 700;
     margin-top: var(--space-2);
+}
+
+.stat-card__rate {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.35rem;
+    margin: 0;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    pointer-events: none;
 }
 
 .catalog-layout {
@@ -535,7 +547,7 @@ select {
     }
 }
 
-/* Idle layout simple: colonnes + stats en bas à gauche */
+/* Idle layout simple: colonnes + ressources dans l'en-tête */
 body.idle-hud-body {
     background: #050505;
     color: #f1f1f1;
@@ -545,7 +557,7 @@ body.idle-hud-body {
 .idle-simple {
     min-height: 100vh;
     width: 100%;
-    padding: 1rem 1rem 8.5rem;
+    padding: 1rem 1rem 1.5rem;
     display: grid;
     gap: 0.75rem;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -557,15 +569,66 @@ body.idle-hud-body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: 1rem;
     padding: 0.75rem;
     border-radius: 0.8rem;
     background: rgba(0, 0, 0, 0.94);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-wrap: wrap;
+}
+
+.idle-simple__header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .idle-simple__header h1 {
     font-size: 1.05rem;
+}
+
+.idle-header__resources {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.idle-resource {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.8rem;
+    background: #101010;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.55rem;
+    min-width: 9rem;
+}
+
+.idle-resource__icon {
+    font-size: 1.2rem;
+    color: #d7b56d;
+    width: 1.3rem;
+    text-align: center;
+}
+
+.idle-resource__info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+}
+
+.idle-resource__value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.idle-resource__rate {
+    margin-top: 0.1rem;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: #8bd4ff;
 }
 
 .idle-column {
@@ -579,52 +642,14 @@ body.idle-hud-body {
     min-height: 60vh;
 }
 
-.idle-column h2,
-.idle-stats-corner h2 {
+.idle-column h2 {
     margin: 0;
     font-size: 0.95rem;
 }
 
-.idle-stats-corner {
-    position: fixed;
-    left: 1rem;
-    bottom: 1rem;
-    width: min(360px, calc(100vw - 2rem));
-    z-index: 9;
-    background: rgba(0, 0, 0, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 0.8rem;
-    padding: 0.7rem;
-}
-
-.idle-hud-body .stats {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-    padding: 0;
-}
-
-.idle-hud-body .stat-card {
-    background: #101010;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 0.5rem;
-    padding: 0.55rem;
-}
-
-.idle-hud-body .stat-card__label,
 .idle-hud-body .idle-upgrade__description,
 .idle-hud-body .idle-upgrade__meta {
     color: #a6a6a6;
-}
-
-.idle-hud-body .stat-card__value {
-    margin-top: 0.2rem;
-    font-size: 1.1rem;
-    color: #ffffff;
 }
 
 .hud-action-button,
@@ -709,7 +734,7 @@ body.idle-hud-body {
 @media (max-width: 720px) {
     .idle-simple {
         grid-template-columns: 1fr;
-        padding: 0.5rem 0.5rem 8rem;
+        padding: 0.5rem;
     }
 
     .idle-simple__header {
@@ -721,14 +746,12 @@ body.idle-hud-body {
         min-height: auto;
     }
 
-    .idle-stats-corner {
-        left: 0.5rem;
-        right: 0.5rem;
-        bottom: 0.5rem;
-        width: auto;
+    .idle-header__resources {
+        width: 100%;
     }
 
-    .idle-hud-body .stats {
-        grid-template-columns: 1fr;
+    .idle-resource {
+        flex: 1 1 45%;
+        min-width: 0;
     }
 }

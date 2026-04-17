@@ -5,13 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <title>Conan Exiles - Idle Aquilonien</title>
 </head>
 <body class="idle-hud-body">
     <main class="idle-simple" aria-label="Interface simple du mini-jeu idle">
         <header class="idle-simple__header">
-            <a class="button button--secondary" href="index.html">← Calculateur</a>
-            <h1>Idle Aquilonien</h1>
+            <div class="idle-simple__header-left">
+                <a class="button button--secondary" href="index.html">← Calculateur</a>
+                <h1>Idle Aquilonien</h1>
+            </div>
+            <div class="idle-header__resources" id="idle-resources" aria-label="Ressources"></div>
         </header>
 
         <section class="idle-column" aria-label="Colonne actions">
@@ -30,11 +34,6 @@
             <h2>Quêtes</h2>
             <p class="idle-highlight" id="offline-gain"></p>
             <div class="idle-missions" id="idle-missions"></div>
-        </section>
-
-        <section class="idle-stats-corner" aria-label="Statistiques du jeu idle">
-            <h2>Stats</h2>
-            <section class="stats" id="idle-stats"></section>
         </section>
     </main>
 
