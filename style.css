@@ -730,6 +730,7 @@ body.idle-hud-body {
 .idle-action-list,
 .idle-missions {
     display: grid;
+    align-content: start;
     gap: 0.55rem;
 }
 

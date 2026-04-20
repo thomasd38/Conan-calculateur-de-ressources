@@ -11,91 +11,91 @@ const questDefinitions = [
     { id: 'unlock_relics', title: 'Vestiges Anciens', description: 'Acquérir un véritable trésor d\'or.', progress: (s) => s.gold, target: 500, reward: { relics: 1 }, reqQuest: 'gold_50' },
 
     // Tier 1 — Débutant
-    { id: 'click_25', title: 'Première récolte', description: 'Effectuer 125 récoltes manuelles.', progress: (s) => s.totalClicks, target: 125, reward: { energy: 8 } },
-    { id: 'energy_100', title: 'Premier feu', description: 'Accumuler 500 énergie.', progress: (s) => s.energy, target: 500, reward: { energy: 50 } },
-    { id: 'click_50', title: 'Main de fer', description: 'Effectuer 250 récoltes manuelles.', progress: (s) => s.totalClicks, target: 250, reward: { energy: 16 } },
-    { id: 'crystals_20', title: 'Premières gemmes', description: 'Accumuler 100 cristaux.', progress: (s) => s.crystals, target: 100, reward: { energy: 16 }, reqQuest: 'unlock_crystals' },
-    { id: 'spend_200_energy', title: 'Premier chantier', description: 'Dépenser 1000 énergie en améliorations/actions.', progress: (s) => s.spentEnergy, target: 1000, reward: { energy: 50 } },
-    { id: 'buy_3_upgrades', title: 'Apprenti intendant', description: 'Acheter 15 améliorations.', progress: (s) => s.upgradesPurchased, target: 15, reward: { energy: 24 } },
-    { id: 'energy_500', title: 'Stock stratégique', description: 'Accumuler 2500 énergie.', progress: (s) => s.energy, target: 2500, reward: { energy: 100 } },
-    { id: 'spend_500_energy', title: 'Investisseur prudent', description: 'Dépenser 2500 énergie en améliorations/actions.', progress: (s) => s.spentEnergy, target: 2500, reward: { energy: 100 } },
-    { id: 'energy_1500', title: 'Réserve impériale', description: 'Accumuler 7500 énergie.', progress: (s) => s.energy, target: 7500, reward: { energy: 300 } },
-    { id: 'buy_8_upgrades', title: 'Intendant des ateliers', description: 'Acheter 40 améliorations.', progress: (s) => s.upgradesPurchased, target: 40, reward: { energy: 60 } },
+    { id: 'click_25', title: 'Première récolte', description: 'Effectuer 125 récoltes manuelles.', progress: (s) => s.totalClicks, target: 125, reward: { energy: 20 } },
+    { id: 'energy_100', title: 'Premier feu', description: 'Accumuler 500 énergie.', progress: (s) => s.energy, target: 500, reward: { energy: 125 } },
+    { id: 'click_50', title: 'Main de fer', description: 'Effectuer 250 récoltes manuelles.', progress: (s) => s.totalClicks, target: 250, reward: { energy: 40 } },
+    { id: 'crystals_20', title: 'Premières gemmes', description: 'Accumuler 100 cristaux.', progress: (s) => s.crystals, target: 100, reward: { energy: 40 }, reqQuest: 'unlock_crystals' },
+    { id: 'spend_200_energy', title: 'Premier chantier', description: 'Dépenser 1000 énergie en améliorations/actions.', progress: (s) => s.spentEnergy, target: 1000, reward: { energy: 125 } },
+    { id: 'buy_3_upgrades', title: 'Apprenti intendant', description: 'Acheter 15 améliorations.', progress: (s) => s.upgradesPurchased, target: 15, reward: { energy: 60 } },
+    { id: 'energy_500', title: 'Stock stratégique', description: 'Accumuler 2500 énergie.', progress: (s) => s.energy, target: 2500, reward: { energy: 250 } },
+    { id: 'spend_500_energy', title: 'Investisseur prudent', description: 'Dépenser 2500 énergie en améliorations/actions.', progress: (s) => s.spentEnergy, target: 2500, reward: { energy: 250 } },
+    { id: 'energy_1500', title: 'Réserve impériale', description: 'Accumuler 7500 énergie.', progress: (s) => s.energy, target: 7500, reward: { energy: 750 } },
+    { id: 'buy_8_upgrades', title: 'Intendant des ateliers', description: 'Acheter 40 améliorations.', progress: (s) => s.upgradesPurchased, target: 40, reward: { energy: 150 } },
 
     // Tier 2 — Apprenti
-    { id: 'crystals_100', title: 'Collectionneur de gemmes', description: 'Accumuler 500 cristaux.', progress: (s) => s.crystals, target: 500, reward: { energy: 84 }, reqQuest: 'unlock_crystals' },
-    { id: 'crystals_120', title: 'Trésor royal', description: 'Accumuler 600 cristaux.', progress: (s) => s.crystals, target: 600, reward: { energy: 90 }, reqQuest: 'unlock_crystals' },
-    { id: 'drones_10', title: 'Escadron complet', description: 'Posséder 50 drones récupérateurs.', progress: (s) => s.drones, target: 50, reward: { energy: 200 } },
-    { id: 'click_250', title: 'Battement régulier', description: 'Effectuer 1250 récoltes manuelles.', progress: (s) => s.totalClicks, target: 1250, reward: { energy: 120 } },
-    { id: 'extractors_6', title: 'Front minier', description: 'Posséder 30 extracteurs de cristaux.', progress: (s) => s.extractors, target: 30, reward: { energy: 240 }, reqQuest: 'unlock_crystals' },
-    { id: 'energy_5000', title: 'Réseau aquilonien', description: 'Accumuler 25000 énergie.', progress: (s) => s.energy, target: 25000, reward: { crystals: 44 }, reqQuest: 'unlock_crystals' },
-    { id: 'energy_10000', title: 'Entrepôt royal', description: 'Accumuler 50000 énergie.', progress: (s) => s.energy, target: 50000, reward: { crystals: 30 }, reqQuest: 'unlock_crystals' },
-    { id: 'buy_20_upgrades', title: 'Maître intendant', description: 'Acheter 100 améliorations.', progress: (s) => s.upgradesPurchased, target: 100, reward: { energy: 400, crystals: 12 }, reqQuest: 'unlock_crystals' },
-    { id: 'crystals_500', title: 'Cœur de gemmes', description: 'Accumuler 2500 cristaux.', progress: (s) => s.crystals, target: 2500, reward: { energy: 440 }, reqQuest: 'unlock_crystals' },
-    { id: 'crystals_500_quest', title: 'Veine profonde', description: 'Accumuler 2500 cristaux.', progress: (s) => s.crystals, target: 2500, reward: { energy: 600 }, reqQuest: 'unlock_crystals' },
-    { id: 'drones_25', title: 'Flotte aquilonienne', description: 'Posséder 125 drones récupérateurs.', progress: (s) => s.drones, target: 125, reward: { energy: 500 } },
+    { id: 'crystals_100', title: 'Collectionneur de gemmes', description: 'Accumuler 500 cristaux.', progress: (s) => s.crystals, target: 500, reward: { energy: 210 }, reqQuest: 'unlock_crystals' },
+    { id: 'crystals_120', title: 'Trésor royal', description: 'Accumuler 600 cristaux.', progress: (s) => s.crystals, target: 600, reward: { energy: 225 }, reqQuest: 'unlock_crystals' },
+    { id: 'drones_10', title: 'Escadron complet', description: 'Posséder 50 drones récupérateurs.', progress: (s) => s.drones, target: 50, reward: { energy: 500 } },
+    { id: 'click_250', title: 'Battement régulier', description: 'Effectuer 1250 récoltes manuelles.', progress: (s) => s.totalClicks, target: 1250, reward: { energy: 300 } },
+    { id: 'extractors_6', title: 'Front minier', description: 'Posséder 30 extracteurs de cristaux.', progress: (s) => s.extractors, target: 30, reward: { energy: 600 }, reqQuest: 'unlock_crystals' },
+    { id: 'energy_5000', title: 'Réseau aquilonien', description: 'Accumuler 25000 énergie.', progress: (s) => s.energy, target: 25000, reward: { crystals: 110 }, reqQuest: 'unlock_crystals' },
+    { id: 'energy_10000', title: 'Entrepôt royal', description: 'Accumuler 50000 énergie.', progress: (s) => s.energy, target: 50000, reward: { crystals: 75 }, reqQuest: 'unlock_crystals' },
+    { id: 'buy_20_upgrades', title: 'Maître intendant', description: 'Acheter 100 améliorations.', progress: (s) => s.upgradesPurchased, target: 100, reward: { energy: 1000, crystals: 30 }, reqQuest: 'unlock_crystals' },
+    { id: 'crystals_500', title: 'Cœur de gemmes', description: 'Accumuler 2500 cristaux.', progress: (s) => s.crystals, target: 2500, reward: { energy: 1100 }, reqQuest: 'unlock_crystals' },
+    { id: 'crystals_500_quest', title: 'Veine profonde', description: 'Accumuler 2500 cristaux.', progress: (s) => s.crystals, target: 2500, reward: { energy: 1500 }, reqQuest: 'unlock_crystals' },
+    { id: 'drones_25', title: 'Flotte aquilonienne', description: 'Posséder 125 drones récupérateurs.', progress: (s) => s.drones, target: 125, reward: { energy: 1250 } },
 
     // Tier 3 — Vétéran
-    { id: 'extractors_20', title: 'Réseau minier', description: 'Posséder 100 extracteurs de cristaux.', progress: (s) => s.extractors, target: 100, reward: { energy: 1600, crystals: 30 }, reqQuest: 'unlock_crystals' },
-    { id: 'click_1000', title: 'Bras inlassable', description: 'Effectuer 5000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 5000, reward: { energy: 800 } },
-    { id: 'energy_25000', title: 'Brasier d\'empire', description: 'Accumuler 125000 énergie.', progress: (s) => s.energy, target: 125000, reward: { crystals: 140, gold: 1 }, reqQuest: 'unlock_gold' },
-    { id: 'energy_50k', title: 'Grenier aquilonien', description: 'Accumuler 250000 énergie.', progress: (s) => s.energy, target: 250000, reward: { crystals: 120, gold: 1 }, reqQuest: 'unlock_gold' },
-    { id: 'crystals_2500', title: 'Cargaison de gemmes', description: 'Accumuler 12500 cristaux.', progress: (s) => s.crystals, target: 12500, reward: { energy: 4000, gold: 1 }, reqQuest: 'unlock_gold' },
-    { id: 'crystals_2500_obj', title: 'Mur de cristal', description: 'Accumuler 12500 cristaux.', progress: (s) => s.crystals, target: 12500, reward: { energy: 2400, gold: 1 }, reqQuest: 'unlock_gold' },
-    { id: 'gold_10', title: 'Premières pièces', description: 'Accumuler 50 or.', progress: (s) => s.gold, target: 50, reward: { crystals: 300 }, reqQuest: 'unlock_gold' },
-    { id: 'refinery_10', title: 'Raffineur expert', description: 'Atteindre le niveau 50 de la raffinerie.', progress: (s) => s.refineryLevel, target: 50, reward: { crystals: 80 }, reqQuest: 'unlock_crystals' },
-    { id: 'converter_5', title: 'Alchimiste confirmé', description: 'Atteindre le niveau 25 du convertisseur.', progress: (s) => s.converterLevel, target: 25, reward: { energy: 3000, gold: 1 }, reqQuest: 'unlock_gold' },
-    { id: 'buy_40_upgrades', title: 'Grand architecte', description: 'Acheter 200 améliorations.', progress: (s) => s.upgradesPurchased, target: 200, reward: { crystals: 240, gold: 1 }, reqQuest: 'unlock_gold' },
-    { id: 'spend_100k_energy', title: 'Bâtisseur insatiable', description: 'Dépenser 500000 énergie.', progress: (s) => s.spentEnergy, target: 500000, reward: { gold: 2 }, reqQuest: 'unlock_gold' },
+    { id: 'extractors_20', title: 'Réseau minier', description: 'Posséder 100 extracteurs de cristaux.', progress: (s) => s.extractors, target: 100, reward: { energy: 4000, crystals: 75 }, reqQuest: 'unlock_crystals' },
+    { id: 'click_1000', title: 'Bras inlassable', description: 'Effectuer 5000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 5000, reward: { energy: 2000 } },
+    { id: 'energy_25000', title: 'Brasier d\'empire', description: 'Accumuler 125000 énergie.', progress: (s) => s.energy, target: 125000, reward: { crystals: 350, gold: 2 }, reqQuest: 'unlock_gold' },
+    { id: 'energy_50k', title: 'Grenier aquilonien', description: 'Accumuler 250000 énergie.', progress: (s) => s.energy, target: 250000, reward: { crystals: 300, gold: 2 }, reqQuest: 'unlock_gold' },
+    { id: 'crystals_2500', title: 'Cargaison de gemmes', description: 'Accumuler 12500 cristaux.', progress: (s) => s.crystals, target: 12500, reward: { energy: 10000, gold: 2 }, reqQuest: 'unlock_gold' },
+    { id: 'crystals_2500_obj', title: 'Mur de cristal', description: 'Accumuler 12500 cristaux.', progress: (s) => s.crystals, target: 12500, reward: { energy: 6000, gold: 2 }, reqQuest: 'unlock_gold' },
+    { id: 'gold_10', title: 'Premières pièces', description: 'Accumuler 50 or.', progress: (s) => s.gold, target: 50, reward: { crystals: 750 }, reqQuest: 'unlock_gold' },
+    { id: 'refinery_10', title: 'Raffineur expert', description: 'Atteindre le niveau 50 de la raffinerie.', progress: (s) => s.refineryLevel, target: 50, reward: { crystals: 200 }, reqQuest: 'unlock_crystals' },
+    { id: 'converter_5', title: 'Alchimiste confirmé', description: 'Atteindre le niveau 25 du convertisseur.', progress: (s) => s.converterLevel, target: 25, reward: { energy: 7500, gold: 2 }, reqQuest: 'unlock_gold' },
+    { id: 'buy_40_upgrades', title: 'Grand architecte', description: 'Acheter 200 améliorations.', progress: (s) => s.upgradesPurchased, target: 200, reward: { crystals: 600, gold: 2 }, reqQuest: 'unlock_gold' },
+    { id: 'spend_100k_energy', title: 'Bâtisseur insatiable', description: 'Dépenser 500000 énergie.', progress: (s) => s.spentEnergy, target: 500000, reward: { gold: 5 }, reqQuest: 'unlock_gold' },
 
     // Tier 4 — Conquérant
-    { id: 'gold_50', title: 'Bourse du conquérant', description: 'Accumuler 250 or.', progress: (s) => s.gold, target: 250, reward: { crystals: 800 }, reqQuest: 'unlock_gold' },
-    { id: 'prospectors_15', title: 'Filon découvert', description: 'Posséder 75 prospecteurs aquiloniens.', progress: (s) => s.prospectors, target: 75, reward: { gold: 8, crystals: 600 }, reqQuest: 'unlock_gold' },
-    { id: 'drones_100', title: 'Légion mécanique', description: 'Posséder 500 drones récupérateurs.', progress: (s) => s.drones, target: 500, reward: { crystals: 1200, gold: 5 }, reqQuest: 'unlock_gold' },
-    { id: 'extractors_60', title: 'Réseau profond', description: 'Posséder 300 extracteurs de cristaux.', progress: (s) => s.extractors, target: 300, reward: { energy: 30000, gold: 6 }, reqQuest: 'unlock_gold' },
-    { id: 'click_5000', title: 'Volonté indomptable', description: 'Effectuer 25000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 25000, reward: { gold: 7, crystals: 1000 }, reqQuest: 'unlock_gold' },
-    { id: 'energy_250k', title: 'Trésor de guerre', description: 'Accumuler 1250000 énergie.', progress: (s) => s.energy, target: 1250000, reward: { crystals: 1600, gold: 9 }, reqQuest: 'unlock_gold' },
-    { id: 'energy_250k_obj', title: 'Cascade d\'énergie', description: 'Accumuler 1250000 énergie.', progress: (s) => s.energy, target: 1250000, reward: { gold: 4, crystals: 800 }, reqQuest: 'unlock_gold' },
-    { id: 'crystals_15k', title: 'Chambre forte', description: 'Accumuler 75000 cristaux.', progress: (s) => s.crystals, target: 75000, reward: { gold: 12 }, reqQuest: 'unlock_gold' },
-    { id: 'crystals_25k_obj', title: 'Mine royale', description: 'Accumuler 125000 cristaux.', progress: (s) => s.crystals, target: 125000, reward: { gold: 7 }, reqQuest: 'unlock_gold' },
-    { id: 'gold_500', title: 'Rançon royale', description: 'Accumuler 2500 or.', progress: (s) => s.gold, target: 2500, reward: { crystals: 5000, energy: 100000 }, reqQuest: 'unlock_gold' },
-    { id: 'gold_500_obj', title: 'Rançon du prince', description: 'Accumuler 2500 or.', progress: (s) => s.gold, target: 2500, reward: { crystals: 4000, energy: 60000 }, reqQuest: 'unlock_gold' },
+    { id: 'gold_50', title: 'Bourse du conquérant', description: 'Accumuler 250 or.', progress: (s) => s.gold, target: 250, reward: { crystals: 2000 }, reqQuest: 'unlock_gold' },
+    { id: 'prospectors_15', title: 'Filon découvert', description: 'Posséder 75 prospecteurs aquiloniens.', progress: (s) => s.prospectors, target: 75, reward: { gold: 20, crystals: 1500 }, reqQuest: 'unlock_gold' },
+    { id: 'drones_100', title: 'Légion mécanique', description: 'Posséder 500 drones récupérateurs.', progress: (s) => s.drones, target: 500, reward: { crystals: 3000, gold: 12 }, reqQuest: 'unlock_gold' },
+    { id: 'extractors_60', title: 'Réseau profond', description: 'Posséder 300 extracteurs de cristaux.', progress: (s) => s.extractors, target: 300, reward: { energy: 75000, gold: 15 }, reqQuest: 'unlock_gold' },
+    { id: 'click_5000', title: 'Volonté indomptable', description: 'Effectuer 25000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 25000, reward: { gold: 18, crystals: 2500 }, reqQuest: 'unlock_gold' },
+    { id: 'energy_250k', title: 'Trésor de guerre', description: 'Accumuler 1250000 énergie.', progress: (s) => s.energy, target: 1250000, reward: { crystals: 4000, gold: 22 }, reqQuest: 'unlock_gold' },
+    { id: 'energy_250k_obj', title: 'Cascade d\'énergie', description: 'Accumuler 1250000 énergie.', progress: (s) => s.energy, target: 1250000, reward: { gold: 10, crystals: 2000 }, reqQuest: 'unlock_gold' },
+    { id: 'crystals_15k', title: 'Chambre forte', description: 'Accumuler 75000 cristaux.', progress: (s) => s.crystals, target: 75000, reward: { gold: 30 }, reqQuest: 'unlock_gold' },
+    { id: 'crystals_25k_obj', title: 'Mine royale', description: 'Accumuler 125000 cristaux.', progress: (s) => s.crystals, target: 125000, reward: { gold: 18 }, reqQuest: 'unlock_gold' },
+    { id: 'gold_500', title: 'Rançon royale', description: 'Accumuler 2500 or.', progress: (s) => s.gold, target: 2500, reward: { crystals: 12500, energy: 250000 }, reqQuest: 'unlock_gold' },
+    { id: 'gold_500_obj', title: 'Rançon du prince', description: 'Accumuler 2500 or.', progress: (s) => s.gold, target: 2500, reward: { crystals: 10000, energy: 150000 }, reqQuest: 'unlock_gold' },
 
     // Tier 5 — Héros
-    { id: 'click_20000', title: 'Héros sans relâche', description: 'Effectuer 100000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 100000, reward: { gold: 30, crystals: 4000 }, reqQuest: 'unlock_gold' },
-    { id: 'relics_5', title: 'Première relique', description: 'Accumuler 25 reliques.', progress: (s) => s.relics, target: 25, reward: { gold: 50, crystals: 8000 }, reqQuest: 'unlock_relics' },
-    { id: 'energy_2M', title: 'Réserve titanesque', description: 'Accumuler 10000000 énergie.', progress: (s) => s.energy, target: 10000000, reward: { gold: 60, crystals: 10000 }, reqQuest: 'unlock_gold' },
-    { id: 'energy_2M_obj', title: 'Puits infini', description: 'Accumuler 10000000 énergie.', progress: (s) => s.energy, target: 10000000, reward: { gold: 36, relics: 1 }, reqQuest: 'unlock_relics' },
-    { id: 'crystals_100k', title: 'Mine infinie', description: 'Accumuler 500000 cristaux.', progress: (s) => s.crystals, target: 500000, reward: { gold: 100, relics: 1 }, reqQuest: 'unlock_relics' },
-    { id: 'crystals_500k', title: 'Falaise cristalline', description: 'Accumuler 2500000 cristaux.', progress: (s) => s.crystals, target: 2500000, reward: { gold: 500, relics: 2 }, reqQuest: 'unlock_relics' },
-    { id: 'drones_300', title: 'Armée d\'acier', description: 'Posséder 1500 drones récupérateurs.', progress: (s) => s.drones, target: 1500, reward: { gold: 80, crystals: 8000 }, reqQuest: 'unlock_gold' },
-    { id: 'gold_5k', title: 'Trésorier royal', description: 'Accumuler 25000 or.', progress: (s) => s.gold, target: 25000, reward: { relics: 1, crystals: 16000 }, reqQuest: 'unlock_relics' },
-    { id: 'relics_20', title: 'Éveil des anciens', description: 'Accumuler 100 reliques.', progress: (s) => s.relics, target: 100, reward: { gold: 400, energy: 1000000 }, reqQuest: 'unlock_relics' },
-    { id: 'archeologists_8', title: 'Société savante', description: 'Posséder 40 archéologues stygiens.', progress: (s) => s.archeologists, target: 40, reward: { relics: 1, gold: 200 }, reqQuest: 'unlock_relics' },
-    { id: 'converter_20', title: 'Grand alchimiste', description: 'Atteindre le niveau 100 du convertisseur.', progress: (s) => s.converterLevel, target: 100, reward: { gold: 160, crystals: 12000 }, reqQuest: 'unlock_gold' },
+    { id: 'click_20000', title: 'Héros sans relâche', description: 'Effectuer 100000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 100000, reward: { gold: 75, crystals: 10000 }, reqQuest: 'unlock_gold' },
+    { id: 'relics_5', title: 'Première relique', description: 'Accumuler 25 reliques.', progress: (s) => s.relics, target: 25, reward: { gold: 125, crystals: 20000 }, reqQuest: 'unlock_relics' },
+    { id: 'energy_2M', title: 'Réserve titanesque', description: 'Accumuler 10000000 énergie.', progress: (s) => s.energy, target: 10000000, reward: { gold: 150, crystals: 25000 }, reqQuest: 'unlock_gold' },
+    { id: 'energy_2M_obj', title: 'Puits infini', description: 'Accumuler 10000000 énergie.', progress: (s) => s.energy, target: 10000000, reward: { gold: 90, relics: 2 }, reqQuest: 'unlock_relics' },
+    { id: 'crystals_100k', title: 'Mine infinie', description: 'Accumuler 500000 cristaux.', progress: (s) => s.crystals, target: 500000, reward: { gold: 250, relics: 2 }, reqQuest: 'unlock_relics' },
+    { id: 'crystals_500k', title: 'Falaise cristalline', description: 'Accumuler 2500000 cristaux.', progress: (s) => s.crystals, target: 2500000, reward: { gold: 1250, relics: 5 }, reqQuest: 'unlock_relics' },
+    { id: 'drones_300', title: 'Armée d\'acier', description: 'Posséder 1500 drones récupérateurs.', progress: (s) => s.drones, target: 1500, reward: { gold: 200, crystals: 20000 }, reqQuest: 'unlock_gold' },
+    { id: 'gold_5k', title: 'Trésorier royal', description: 'Accumuler 25000 or.', progress: (s) => s.gold, target: 25000, reward: { relics: 2, crystals: 40000 }, reqQuest: 'unlock_relics' },
+    { id: 'relics_20', title: 'Éveil des anciens', description: 'Accumuler 100 reliques.', progress: (s) => s.relics, target: 100, reward: { gold: 1000, energy: 2500000 }, reqQuest: 'unlock_relics' },
+    { id: 'archeologists_8', title: 'Société savante', description: 'Posséder 40 archéologues stygiens.', progress: (s) => s.archeologists, target: 40, reward: { relics: 2, gold: 500 }, reqQuest: 'unlock_relics' },
+    { id: 'converter_20', title: 'Grand alchimiste', description: 'Atteindre le niveau 100 du convertisseur.', progress: (s) => s.converterLevel, target: 100, reward: { gold: 400, crystals: 30000 }, reqQuest: 'unlock_gold' },
 
     // Tier 6 — Légende
-    { id: 'gold_50k', title: 'Dragon naissant', description: 'Accumuler 250000 or.', progress: (s) => s.gold, target: 250000, reward: { relics: 8, crystals: 40000 }, reqQuest: 'unlock_relics' },
-    { id: 'energy_20M', title: 'Colosse d\'énergie', description: 'Accumuler 100000000 énergie.', progress: (s) => s.energy, target: 100000000, reward: { relics: 5, gold: 1000 }, reqQuest: 'unlock_relics' },
-    { id: 'energy_50M', title: 'Âme du monde', description: 'Accumuler 250000000 énergie.', progress: (s) => s.energy, target: 250000000, reward: { relics: 24, gold: 5000 }, reqQuest: 'unlock_relics' },
-    { id: 'crystals_1M', title: 'Palais de cristal', description: 'Accumuler 5000000 cristaux.', progress: (s) => s.crystals, target: 5000000, reward: { relics: 8, gold: 1600 }, reqQuest: 'unlock_relics' },
-    { id: 'gold_100k', title: 'Dragon thésauriseur', description: 'Accumuler 500000 or.', progress: (s) => s.gold, target: 500000, reward: { relics: 16, crystals: 100000 }, reqQuest: 'unlock_relics' },
-    { id: 'relics_300', title: 'Gardien des ages', description: 'Accumuler 1500 reliques.', progress: (s) => s.relics, target: 1500, reward: { gold: 10000, crystals: 400000 }, reqQuest: 'unlock_relics' },
-    { id: 'relics_500', title: 'Sanctuaire complet', description: 'Accumuler 2500 reliques.', progress: (s) => s.relics, target: 2500, reward: { gold: 16000, crystals: 600000 }, reqQuest: 'unlock_relics' },
-    { id: 'temple_15', title: 'Ordre des oubliés', description: 'Atteindre le niveau 75 du temple oublié.', progress: (s) => s.templeLevel, target: 75, reward: { relics: 12, gold: 2000 }, reqQuest: 'unlock_relics' },
-    { id: 'vault_15', title: 'Coffres scellés', description: 'Atteindre le niveau 75 du coffre royal.', progress: (s) => s.vaultLevel, target: 75, reward: { gold: 4000, crystals: 150000 }, reqQuest: 'unlock_gold' },
-    { id: 'buy_150_upgrades', title: 'Architecte mythique', description: 'Acheter 750 améliorations.', progress: (s) => s.upgradesPurchased, target: 750, reward: { relics: 7, gold: 3000 }, reqQuest: 'unlock_relics' },
-    { id: 'spend_5M_energy', title: 'Fondateur d\'empire', description: 'Dépenser 25000000 énergie.', progress: (s) => s.spentEnergy, target: 25000000, reward: { relics: 10, gold: 4000 }, reqQuest: 'unlock_relics' },
+    { id: 'gold_50k', title: 'Dragon naissant', description: 'Accumuler 250000 or.', progress: (s) => s.gold, target: 250000, reward: { relics: 20, crystals: 100000 }, reqQuest: 'unlock_relics' },
+    { id: 'energy_20M', title: 'Colosse d\'énergie', description: 'Accumuler 100000000 énergie.', progress: (s) => s.energy, target: 100000000, reward: { relics: 12, gold: 2500 }, reqQuest: 'unlock_relics' },
+    { id: 'energy_50M', title: 'Âme du monde', description: 'Accumuler 250000000 énergie.', progress: (s) => s.energy, target: 250000000, reward: { relics: 60, gold: 12500 }, reqQuest: 'unlock_relics' },
+    { id: 'crystals_1M', title: 'Palais de cristal', description: 'Accumuler 5000000 cristaux.', progress: (s) => s.crystals, target: 5000000, reward: { relics: 20, gold: 4000 }, reqQuest: 'unlock_relics' },
+    { id: 'gold_100k', title: 'Dragon thésauriseur', description: 'Accumuler 500000 or.', progress: (s) => s.gold, target: 500000, reward: { relics: 40, crystals: 250000 }, reqQuest: 'unlock_relics' },
+    { id: 'relics_300', title: 'Gardien des ages', description: 'Accumuler 1500 reliques.', progress: (s) => s.relics, target: 1500, reward: { gold: 25000, crystals: 1000000 }, reqQuest: 'unlock_relics' },
+    { id: 'relics_500', title: 'Sanctuaire complet', description: 'Accumuler 2500 reliques.', progress: (s) => s.relics, target: 2500, reward: { gold: 40000, crystals: 1500000 }, reqQuest: 'unlock_relics' },
+    { id: 'temple_15', title: 'Ordre des oubliés', description: 'Atteindre le niveau 75 du temple oublié.', progress: (s) => s.templeLevel, target: 75, reward: { relics: 30, gold: 5000 }, reqQuest: 'unlock_relics' },
+    { id: 'vault_15', title: 'Coffres scellés', description: 'Atteindre le niveau 75 du coffre royal.', progress: (s) => s.vaultLevel, target: 75, reward: { gold: 10000, crystals: 375000 }, reqQuest: 'unlock_gold' },
+    { id: 'buy_150_upgrades', title: 'Architecte mythique', description: 'Acheter 750 améliorations.', progress: (s) => s.upgradesPurchased, target: 750, reward: { relics: 18, gold: 7500 }, reqQuest: 'unlock_relics' },
+    { id: 'spend_5M_energy', title: 'Fondateur d\'empire', description: 'Dépenser 25000000 énergie.', progress: (s) => s.spentEnergy, target: 25000000, reward: { relics: 25, gold: 10000 }, reqQuest: 'unlock_relics' },
 
     // Tier 7 — Divin
-    { id: 'energy_200M', title: 'Écho cosmique', description: 'Accumuler 1000000000 énergie.', progress: (s) => s.energy, target: 1000000000, reward: { relics: 50, gold: 16000 }, reqQuest: 'unlock_relics' },
-    { id: 'crystals_15M', title: 'Océan de cristal', description: 'Accumuler 75000000 cristaux.', progress: (s) => s.crystals, target: 75000000, reward: { relics: 60, gold: 24000 }, reqQuest: 'unlock_relics' },
-    { id: 'gold_2M', title: 'Trône d\'or', description: 'Accumuler 10000000 or.', progress: (s) => s.gold, target: 10000000, reward: { relics: 100, crystals: 2000000 }, reqQuest: 'unlock_relics' },
-    { id: 'relics_5000', title: 'Panthéon retrouvé', description: 'Accumuler 25000 reliques.', progress: (s) => s.relics, target: 25000, reward: { gold: 100000, crystals: 5000000 }, reqQuest: 'unlock_relics' },
-    { id: 'stormforge_20', title: 'Forgeron des tempêtes', description: 'Atteindre le niveau 100 de la forge des tempêtes.', progress: (s) => s.stormforgeLevel, target: 100, reward: { relics: 80, gold: 40000 }, reqQuest: 'unlock_relics' },
-    { id: 'total_clicks_100k', title: 'Mythe vivant', description: 'Effectuer 500000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 500000, reward: { relics: 40, gold: 12000 }, reqQuest: 'unlock_relics' },
-    { id: 'spent_gold_500k', title: 'Roi prodigue', description: 'Dépenser 2500000 or.', progress: (s) => s.spentGold, target: 2500000, reward: { relics: 120, crystals: 4000000 }, reqQuest: 'unlock_relics' },
-    { id: 'archeologists_40', title: 'Académie cachée', description: 'Posséder 200 archéologues stygiens.', progress: (s) => s.archeologists, target: 200, reward: { relics: 70, gold: 30000 }, reqQuest: 'unlock_relics' }
+    { id: 'energy_200M', title: 'Écho cosmique', description: 'Accumuler 1000000000 énergie.', progress: (s) => s.energy, target: 1000000000, reward: { relics: 125, gold: 40000 }, reqQuest: 'unlock_relics' },
+    { id: 'crystals_15M', title: 'Océan de cristal', description: 'Accumuler 75000000 cristaux.', progress: (s) => s.crystals, target: 75000000, reward: { relics: 150, gold: 60000 }, reqQuest: 'unlock_relics' },
+    { id: 'gold_2M', title: 'Trône d\'or', description: 'Accumuler 10000000 or.', progress: (s) => s.gold, target: 10000000, reward: { relics: 250, crystals: 5000000 }, reqQuest: 'unlock_relics' },
+    { id: 'relics_5000', title: 'Panthéon retrouvé', description: 'Accumuler 25000 reliques.', progress: (s) => s.relics, target: 25000, reward: { gold: 250000, crystals: 12500000 }, reqQuest: 'unlock_relics' },
+    { id: 'stormforge_20', title: 'Forgeron des tempêtes', description: 'Atteindre le niveau 100 de la forge des tempêtes.', progress: (s) => s.stormforgeLevel, target: 100, reward: { relics: 200, gold: 100000 }, reqQuest: 'unlock_relics' },
+    { id: 'total_clicks_100k', title: 'Mythe vivant', description: 'Effectuer 500000 récoltes manuelles.', progress: (s) => s.totalClicks, target: 500000, reward: { relics: 100, gold: 30000 }, reqQuest: 'unlock_relics' },
+    { id: 'spent_gold_500k', title: 'Roi prodigue', description: 'Dépenser 2500000 or.', progress: (s) => s.spentGold, target: 2500000, reward: { relics: 300, crystals: 10000000 }, reqQuest: 'unlock_relics' },
+    { id: 'archeologists_40', title: 'Académie cachée', description: 'Posséder 200 archéologues stygiens.', progress: (s) => s.archeologists, target: 200, reward: { relics: 175, gold: 75000 }, reqQuest: 'unlock_relics' }
 ];
 
 
@@ -166,6 +166,7 @@ const upgrades = [
         id: 'extractors',
         title: 'Extracteur de minerai',
         description: '+0,35 cristal / sec',
+        reqQuest: 'unlock_crystals',
         getLevel: () => state.extractors,
         getCost: () => ({ energy: Math.floor(130 * Math.pow(1.3, state.extractors)) }),
         buy: () => {
@@ -515,6 +516,8 @@ function tickFast() {
     const production = computeProductionPerSecond();
     state.energy += production.energy * deltaSeconds;
     state.crystals += production.crystals * deltaSeconds;
+    state.gold += production.gold * deltaSeconds;
+    state.relics += production.relics * deltaSeconds;
 
     processProgression();
     render();
@@ -770,7 +773,7 @@ function renderMissions() {
                 <p class="idle-objective__badge">Quête active</p>
                 <p class="idle-upgrade__title">${formatText(quest.title)}</p>
                 <p class="idle-upgrade__description">${formatText(quest.description)}</p>
-                <p class="idle-upgrade__meta">Progression: ${formatNumber(progressValue)} / ${formatNumber(quest.target)} • Récompense: ${formatCost(quest.reward)}</p>
+                <p class="idle-upgrade__meta">Progression: ${formatNumber(progressValue)} / ${formatNumber(quest.target)} • Récompense: ${formatCost(quest.reward)}${getQuestUnlocksText(quest.id)}</p>
                 <div class="idle-progress">
                     <span style="width: ${Math.min(100, ratio)}%"></span>
                 </div>
@@ -805,6 +808,17 @@ function renderMissions() {
 
 function getQuestById(id) {
     return questDefinitions.find((quest) => quest.id === id);
+}
+
+function getQuestUnlocksText(questId) {
+    const unlockedUpgrades = upgrades.filter(u => u.reqQuest === questId).map(u => u.title);
+    const unlockedActions = actions.filter(a => a.reqQuest === questId).map(a => a.title);
+
+    const unlocks = [];
+    if (unlockedUpgrades.length > 0) unlocks.push(`Amélioration(s) : ${unlockedUpgrades.join(', ')}`);
+    if (unlockedActions.length > 0) unlocks.push(`Action(s) : ${unlockedActions.join(', ')}`);
+
+    return unlocks.length > 0 ? ` • <span style="color: #a4b0be; font-size: 0.9em;"><i class="fa-solid fa-unlock"></i> ${unlocks.join(' | ')}</span>` : '';
 }
 
 function getTransmuteCost() {
@@ -855,7 +869,7 @@ function showQuestPopup(questId) {
     if (!quest) return;
     document.getElementById('quest-popup-title').textContent = quest.title;
     document.getElementById('quest-popup-lore').textContent  = quest.description;
-    document.getElementById('quest-popup-reward').innerHTML  = 'Récompense : ' + formatCost(quest.reward);
+    document.getElementById('quest-popup-reward').innerHTML  = 'Récompense : ' + formatCost(quest.reward) + getQuestUnlocksText(questId);
     document.getElementById('quest-popup-claim').setAttribute('data-quest-id', questId);
     document.getElementById('quest-popup-overlay').classList.add('active');
 }
